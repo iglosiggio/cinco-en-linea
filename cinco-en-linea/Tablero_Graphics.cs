@@ -51,4 +51,58 @@ namespace cinco_en_linea
             Fila = F;
         }
     }
+	public partial class Hovertable : Control
+	{
+		enum Estados { Alone, Entering, Hovering, Leaving }
+		Estados currentStatus;
+		Timer animationControl;
+		Color actualColor;
+		public Hovertable()
+		{
+			actualColor = Color.FromArgb(0, 0, 0);
+			animationControl = new Timer();
+			animationControl.Interval = 10;
+			animationControl.Tick += new EventHandler(doMagic);
+			animationControl.Start();
+			currentStatus = Estados.Alone;
+		}
+		protected override void OnMouseEnter (EventArgs e)
+		{
+			base.OnMouseEnter (e);
+			currentStatus = Estados.Entering;
+		}
+		protected override void OnMouseLeave (EventArgs e)
+		{
+			base.OnMouseLeave (e);
+			currentStatus = Estados.Leaving;
+		}
+		protected override void OnPaint(PaintEventArgs pe)
+		{
+			Brush dibu = new SolidBrush(actualColor);
+			pe.Graphics.FillRectangle(dibu, 0, 0, 100, 100);
+			dibu.Dispose();
+		}
+		void doMagic(object sender, EventArgs e)
+		{
+			switch (currentStatus) {
+			case Estados.Alone:
+				return;
+			case Estados.Entering:
+				if(actualColor.R == 255)
+					currentStatus = Estados.Hovering;
+				else
+					actualColor = Color.FromArgb(Math.Min(actualColor.R + 15, 255), 0, 0);
+				break;
+			case Estados.Hovering:
+				break;
+			case Estados.Leaving:
+				if(actualColor.R == 0)
+					currentStatus = Estados.Alone;
+				else
+					actualColor = Color.FromArgb(Math.Max(actualColor.R - 20, 0), 0, 0);
+				break;
+			}
+			Invalidate();
+		}
+	}
 }
