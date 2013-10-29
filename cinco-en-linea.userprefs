@@ -1,6 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="cinco-en-linea/Tablero_Graphics.cs">
+    <Files>
+      <File FileName="cinco-en-linea/Tablero_Graphics.cs" Line="80" Column="18" />
+      <File FileName="cinco-en-linea/Form1.Designer.cs" Line="51" Column="33" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

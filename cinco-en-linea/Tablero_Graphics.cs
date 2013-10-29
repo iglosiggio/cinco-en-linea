@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -65,22 +66,34 @@ namespace cinco_en_linea
 			animationControl.Tick += new EventHandler(doMagic);
 			animationControl.Start();
 			currentStatus = Estados.Alone;
+			DoubleBuffered = true;
 		}
 		protected override void OnMouseEnter (EventArgs e)
 		{
-			base.OnMouseEnter (e);
 			currentStatus = Estados.Entering;
+			Cursor.Hide();
+			base.OnMouseEnter (e);
 		}
 		protected override void OnMouseLeave (EventArgs e)
 		{
-			base.OnMouseLeave (e);
 			currentStatus = Estados.Leaving;
+			Cursor.Show();
+			base.OnMouseLeave (e);
 		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
-			Brush dibu = new SolidBrush(actualColor);
-			pe.Graphics.FillRectangle(dibu, 0, 0, 100, 100);
+			//PROVISORIO
+			GraphicsPath area = new GraphicsPath();
+			area.AddEllipse(new Rectangle(0, 0, 100, 100));
+
+			PathGradientBrush dibu = new PathGradientBrush(area);
+			dibu.CenterColor = actualColor;
+			dibu.SurroundColors = new Color[] { Color.Black };
+			dibu.CenterPoint = MousePosition;
+
+			pe.Graphics.FillRectangle(dibu, ClientRectangle);
 			dibu.Dispose();
+			area.Dispose();
 		}
 		void doMagic(object sender, EventArgs e)
 		{
