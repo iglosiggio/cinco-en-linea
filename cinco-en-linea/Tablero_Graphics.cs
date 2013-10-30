@@ -67,29 +67,28 @@ namespace cinco_en_linea
 			animationControl.Start();
 			currentStatus = Estados.Alone;
 			DoubleBuffered = true;
+			Cursor.Hide();
 		}
 		protected override void OnMouseEnter (EventArgs e)
 		{
 			currentStatus = Estados.Entering;
-			Cursor.Hide();
 			base.OnMouseEnter (e);
 		}
 		protected override void OnMouseLeave (EventArgs e)
 		{
 			currentStatus = Estados.Leaving;
-			Cursor.Show();
 			base.OnMouseLeave (e);
 		}
 		protected override void OnPaint(PaintEventArgs pe)
 		{
 			//PROVISORIO
 			GraphicsPath area = new GraphicsPath();
-			area.AddEllipse(new Rectangle(0, 0, 100, 100));
+			area.AddEllipse(new Rectangle(0, 0, 50, 50));
 
 			PathGradientBrush dibu = new PathGradientBrush(area);
 			dibu.CenterColor = actualColor;
 			dibu.SurroundColors = new Color[] { Color.Black };
-			dibu.CenterPoint = MousePosition;
+			dibu.CenterPoint = PointToClient (MousePosition);
 
 			pe.Graphics.FillRectangle(dibu, ClientRectangle);
 			dibu.Dispose();
