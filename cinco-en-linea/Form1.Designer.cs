@@ -71,6 +71,7 @@
             this.hovertable1.Size = new System.Drawing.Size(298, 37);
             this.hovertable1.TabIndex = 0;
             this.hovertable1.Text = "hovertable1";
+			this.hovertable1.HoverColumn += tablero_Graphics1.SeleccionarColumna;
             // 
             // Form1
             // 

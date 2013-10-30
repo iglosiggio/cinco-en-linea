@@ -1,9 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="cinco-en-linea/Hovertable.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="cinco-en-linea/Tablero_Graphics.cs">
     <Files>
-      <File FileName="cinco-en-linea/Tablero_Graphics.cs" Line="56" Column="4" />
-      <File FileName="cinco-en-linea/Hovertable.cs" Line="44" Column="10" />
+      <File FileName="cinco-en-linea/Tablero_Graphics.cs" Line="30" Column="15" />
+      <File FileName="cinco-en-linea/Hovertable.cs" Line="39" Column="10" />
+      <File FileName="cinco-en-linea/Form1.cs" Line="17" Column="10" />
+      <File FileName="cinco-en-linea/Form1.Designer.cs" Line="74" Column="73" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

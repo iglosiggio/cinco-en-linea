@@ -24,11 +24,16 @@ namespace cinco_en_linea
         };
 		Brush Selection = new SolidBrush(Color.Gray);
 		Int32 ColumnaSeleccionada = 20;
+		public void SeleccionarColumna(object sender, HovertableEventArgs e)
+		{
+			ColumnaSeleccionada = e.Columna;
+			Invalidate();
+		}
 		Rectangle Columna (Int32 col)
 		{
 			Int32 Margen = (ClientSize.Width -(((ClientSize.Width - 5 * 16) / 15) * 15 + 5 * 16));
             Int32 Ancho = (ClientSize.Width - Margen) / 15;
-			return new Rectangle(Ancho * col + Margen / 2 + 2, 0, Ancho, ClientSize.Height);
+			return new Rectangle(Ancho * col + Margen / 2 + 2, 0, Ancho + 2, ClientSize.Height);
 		}
 
         public Tablero_Graphics()
@@ -59,16 +64,6 @@ namespace cinco_en_linea
         {
             base.OnSizeChanged(e);
             Invalidate();
-        }
-    }
-    public class TableroClickEventArgs : EventArgs
-    {
-        public Int32 Columna { get; private set; }
-        public Int32 Fila { get; private set; }
-        public TableroClickEventArgs(Int32 C, Int32 F)
-        {
-            Columna = C;
-            Fila = F;
         }
     }
 }

@@ -15,10 +15,5 @@ namespace cinco_en_linea
         {
             InitializeComponent();
         }
-
-        private void tablero_Graphics1_ColumnaClick(object sender, TableroClickEventArgs e)
-        {
-            MessageBox.Show(String.Format("Click\n  Fila: {0}\n  Columna: {1}", e.Fila, e.Columna));
-        }
     }
 }

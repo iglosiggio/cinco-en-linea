@@ -15,8 +15,8 @@ namespace cinco_en_linea
         enum Estados { Alone, Entering, Hovering, Leaving }
         Estados currentStatus;
         Timer animationControl;
-		Bend ColorBend;
-		public event HoverColumn;
+		Blend ColorBlend;
+		public event EventHandler<HovertableEventArgs> HoverColumn;
         public Hovertable()
         {
             InitializeComponent();
@@ -26,22 +26,34 @@ namespace cinco_en_linea
             animationControl.Start();
             currentStatus = Estados.Alone;
             DoubleBuffered = true;
-			ColorBend = new Bend(BackColor, Color.Red, 20);
+			ColorBlend = new Blend(BackColor, Color.Red, 20);
         }
         protected override void OnMouseEnter(EventArgs e)
         {
             currentStatus = Estados.Entering;
-			ColorBend.ChangeBend(Color.Red, 30);
+			ColorBlend.ChangeBlend(Color.Red, 30);
             base.OnMouseEnter(e);
             Cursor.Hide();
         }
         protected override void OnMouseLeave(EventArgs e)
         {
             currentStatus = Estados.Leaving;
-			ColorBend.ChangeBend(BackColor, 10);
+			ColorBlend.ChangeBlend(BackColor, 10);
             base.OnMouseLeave(e);
+			if(HoverColumn != null)
+				HoverColumn(this, new HovertableEventArgs(20));
             Cursor.Show();
         }
+		protected override void OnMouseMove (MouseEventArgs e)
+		{
+			Int32 Margen = (ClientSize.Width -(((ClientSize.Width - 5 * 16) / 15) * 15 + 5 * 16)) / 2;
+            Int32 Ancho = (ClientSize.Width - Margen) / 15;
+			Int32 Columna = (e.X - Margen) / Ancho;
+			if(Columna < 15)
+				if(HoverColumn != null)
+					HoverColumn(this, new HovertableEventArgs(Columna));
+			base.OnMouseMove (e);
+		}
         protected override void OnPaint(PaintEventArgs pe)
         {
             Point start = PointToClient(MousePosition);
@@ -52,7 +64,7 @@ namespace cinco_en_linea
             area.AddEllipse(new Rectangle(start, new Size(50, 50)));
 
             PathGradientBrush dibu = new PathGradientBrush(area);
-            dibu.CenterColor = ColorBend.O;
+            dibu.CenterColor = ColorBlend.O;
             dibu.SurroundColors = new Color[] { BackColor };
             dibu.CenterPoint = new Point(start.X + 25, start.Y + 25);
 
@@ -66,37 +78,37 @@ namespace cinco_en_linea
 			case Estados.Alone:
 				return;
 			case Estados.Entering:
-				if (ColorBend.Ready)
+				if (ColorBlend.Ready)
 					currentStatus = Estados.Hovering;
-				else ColorBend.Next();
+				else ColorBlend.Next();
 				break;
 			case Estados.Hovering:
-				if(ColorBend.Ready)
-					if(ColorBend.O.ToArgb() == Color.Red.ToArgb())
-						ColorBend.ChangeBend(Color.DarkRed, 7);
-					else if(ColorBend.O.ToArgb() == Color.DarkRed.ToArgb())
-						ColorBend.ChangeBend(Color.Red, 7);
-				ColorBend.Next();
+				if(ColorBlend.Ready)
+					if(ColorBlend.O.ToArgb() == Color.Red.ToArgb())
+						ColorBlend.ChangeBlend(Color.DarkRed, 7);
+					else if(ColorBlend.O.ToArgb() == Color.DarkRed.ToArgb())
+						ColorBlend.ChangeBlend(Color.Red, 7);
+				ColorBlend.Next();
 				break;
 			case Estados.Leaving:
-				if (ColorBend.Ready)
+				if (ColorBlend.Ready)
 					currentStatus = Estados.Alone;
-				else ColorBend.Next();
+				else ColorBlend.Next();
 				break;
 			}
 			Invalidate ();
 		}
-		class Bend {
+		class Blend {
 			public Color O { get; private set; }
 			public Color D { get; private set; }
 			public Int32 Pasos { get; private set; }
-			public Bend(Color _O, Color _D, Int32 _Pasos)
+			public Blend(Color _O, Color _D, Int32 _Pasos)
 			{
 				O = _O;
 				D = _D;
 				Pasos = _Pasos;
 			}
-			public void ChangeBend(Color _D, Int32 _Pasos)
+			public void ChangeBlend(Color _D, Int32 _Pasos)
 			{
 				D = _D;
 				Pasos = _Pasos;
@@ -120,5 +132,13 @@ namespace cinco_en_linea
 				O = Color.FromArgb(C[0], C[1], C[2], C[3]);
 			}
 		}
+    }
+    public class HovertableEventArgs : EventArgs
+    {
+        public Int32 Columna { get; private set; }
+        public HovertableEventArgs(Int32 C)
+        {
+            Columna = C;
+        }
     }
 }
