@@ -13,10 +13,23 @@ namespace cinco_en_linea
     public partial class Tablero_Graphics : Control
     {
         Brush[] Colores =  {
-            new SolidBrush(Color.LightGray),
-            new SolidBrush(Color.Red),
-            new SolidBrush(Color.Blue)
+            Brushes.LightGray,
+            Brushes.Pink,
+            Brushes.LightBlue
         };
+        Pen[] Líneas =  {
+            Pens.DarkGray,
+            Pens.DeepPink,
+            Pens.LightSkyBlue
+        };
+		Brush Selection = new SolidBrush(Color.Gray);
+		Int32 ColumnaSeleccionada = 20;
+		Rectangle Columna (Int32 col)
+		{
+			Int32 Margen = (ClientSize.Width -(((ClientSize.Width - 5 * 16) / 15) * 15 + 5 * 16));
+            Int32 Ancho = (ClientSize.Width - Margen) / 15;
+			return new Rectangle(Ancho * col + Margen / 2 + 2, 0, Ancho, ClientSize.Height);
+		}
 
         public Tablero_Graphics()
         {
@@ -24,16 +37,23 @@ namespace cinco_en_linea
             DoubleBuffered = true;
         }
 
-        protected override void OnPaint(PaintEventArgs pe)
-        {
-            base.OnPaint(pe);
+        protected override void OnPaint (PaintEventArgs pe)
+		{
+			base.OnPaint (pe);
 
-            // Data de dibujo
-            Int32 Alto = (ClientSize.Height - 5 * 16) / 15;
-            Int32 Ancho = (ClientSize.Width - 5 * 16) / 15;
-            for (int i = 5; i < (Alto + 5) * 15; i += Alto + 5)
-                for (int j = 5; j < (Ancho + 5) * 15; j += Ancho + 5)
-                    pe.Graphics.FillRectangle(Colores[((j*i) + (j/i)) % 3], j, i, Ancho, Alto);
+			// Data de dibujo
+			Int32 Alto = (ClientSize.Height - 5 * 16) / 15;
+			Int32 Ancho = (ClientSize.Width - 5 * 16) / 15;
+			Int32 Margen = (ClientSize.Width - (Ancho * 15 + 5 * 16)) / 2;
+			pe.Graphics.FillRectangle (Selection, Columna (ColumnaSeleccionada));
+
+			for (int i = 5; i < (Alto + 5) * 15; i += Alto + 5)
+				for (int j = Margen + 5; j < (Ancho + 5) * 15; j += Ancho + 5)
+				{
+					pe.Graphics.FillEllipse (Colores [2], j, i, Ancho, Alto);
+					pe.Graphics.DrawEllipse (Líneas [2], j, i, Ancho, Alto);
+				}
+
         }
         protected override void OnSizeChanged(EventArgs e)
         {
