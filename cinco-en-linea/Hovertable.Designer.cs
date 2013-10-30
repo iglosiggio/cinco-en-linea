@@ -1,6 +1,6 @@
 ﻿namespace cinco_en_linea
 {
-    partial class Tablero_Graphics
+    partial class Hovertable
     {
         /// <summary>
         /// Variable del diseñador requerida.

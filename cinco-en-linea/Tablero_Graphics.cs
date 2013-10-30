@@ -20,7 +20,6 @@ namespace cinco_en_linea
 
         public Tablero_Graphics()
         {
-
             InitializeComponent();
             DoubleBuffered = true;
         }
@@ -52,69 +51,4 @@ namespace cinco_en_linea
             Fila = F;
         }
     }
-	public partial class Hovertable : Control
-	{
-		enum Estados { Alone, Entering, Hovering, Leaving }
-		Estados currentStatus;
-		Timer animationControl;
-		Color actualColor;
-		public Hovertable()
-		{
-			actualColor = Color.FromArgb(0, 0, 0);
-			animationControl = new Timer();
-			animationControl.Interval = 10;
-			animationControl.Tick += new EventHandler(doMagic);
-			animationControl.Start();
-			currentStatus = Estados.Alone;
-			DoubleBuffered = true;
-			Cursor.Hide();
-		}
-		protected override void OnMouseEnter (EventArgs e)
-		{
-			currentStatus = Estados.Entering;
-			base.OnMouseEnter (e);
-		}
-		protected override void OnMouseLeave (EventArgs e)
-		{
-			currentStatus = Estados.Leaving;
-			base.OnMouseLeave (e);
-		}
-		protected override void OnPaint(PaintEventArgs pe)
-		{
-			//PROVISORIO
-			GraphicsPath area = new GraphicsPath();
-			area.AddEllipse(new Rectangle(0, 0, 50, 50));
-
-			PathGradientBrush dibu = new PathGradientBrush(area);
-			dibu.CenterColor = actualColor;
-			dibu.SurroundColors = new Color[] { Color.Black };
-			dibu.CenterPoint = PointToClient (MousePosition);
-
-			pe.Graphics.FillRectangle(dibu, ClientRectangle);
-			dibu.Dispose();
-			area.Dispose();
-		}
-		void doMagic(object sender, EventArgs e)
-		{
-			switch (currentStatus) {
-			case Estados.Alone:
-				return;
-			case Estados.Entering:
-				if(actualColor.R == 255)
-					currentStatus = Estados.Hovering;
-				else
-					actualColor = Color.FromArgb(Math.Min(actualColor.R + 15, 255), 0, 0);
-				break;
-			case Estados.Hovering:
-				break;
-			case Estados.Leaving:
-				if(actualColor.R == 0)
-					currentStatus = Estados.Alone;
-				else
-					actualColor = Color.FromArgb(Math.Max(actualColor.R - 20, 0), 0, 0);
-				break;
-			}
-			Invalidate();
-		}
-	}
 }
