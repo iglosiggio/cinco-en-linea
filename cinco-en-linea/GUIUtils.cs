@@ -73,7 +73,6 @@ namespace cinco_en_linea
                 Origen.Width += (Dest.Width - Origen.Width) / Pasos;
                 Pasos--;
             }
-            Console.WriteLine(Origen);
             return Origen;
         }
     }
