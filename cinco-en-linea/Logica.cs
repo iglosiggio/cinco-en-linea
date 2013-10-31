@@ -6,11 +6,14 @@ namespace Logica
 {
     class Tablero
     {
-        int[,] tablero;
+        Int32[,] tablero;
+        Int32 Jugador = 1;
+        public event EventHandler<Ganador> Gano;
+        public event EventHandler<Turno> CambioTurno;
         Tablero() {
             tablero = new int[15, 15];
         }
-        public int gano()
+        void gano()
         {
             int[][] data = {
                 new int[] {1, 0, 0, 10, 0, 15}, // Avanzo en x
@@ -30,15 +33,46 @@ namespace Logica
                         for (c = 0; c < 5; c++)
                             if (tablero[x + c * Config[0], y + c * Config[1]] != j)
                                 break;
-                        if (c == 5)
-                            return tablero[x, y];
+                        if (c == 5 && Ganador != null)
+                            Gano(this, new Ganador(tablero[x, y]));
                     }
             }
-            return 0;
         }
-        public void meterFicha(Int32 columna, Int32 Jugador)
+        public void meterFicha(Int32 columna)
         {
-            if (columna
+            Int32 fila = ultimoLugar(columna);
+            tablero[columna, fila] = Jugador;
+            gano();
+            if (Jugador == 1) Jugador = 2;
+            else Jugador = 1;
+            CambioTurno(this, new Turno(Jugador, columna, fila);
+        }
+        public Int32 ultimoLugar(Int32 columna)
+        {
+            Int32 fila;
+            for (fila = 0; tablero[columna, fila] != 0 && fila < 15; fila++);
+            if (fila == 0) throw new Exception("Columna completa");
+            return fila;
+        }
+    }
+    class Ganador : EventArgs
+    {
+        public Int32 Jugador { get; private set; }
+        public Ganador(Int32 J)
+        {
+            Jugador = J;
+        }
+    }
+    class Turno : EventArgs
+    {
+        public Int32 Jugador { get; private set; }
+        public Int32 Columna { get; private set; }
+        public Int32 Fila { get; private set; }
+        public Turno(Int32 J, Int32 C, Int32 F)
+        {
+            Jugador = J;
+            Columna = C;
+            Fila = F;
         }
     }
 }
