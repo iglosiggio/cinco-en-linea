@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace Logica
 {
-    class Tablero
+    public class Tablero
     {
         Int32[,] tablero;
         Int32 Jugador = 1;
         public event EventHandler<Ganador> Gano;
         public event EventHandler<Turno> CambioTurno;
-        Tablero() {
+        public Tablero() {
             tablero = new int[15, 15];
         }
         void gano()
@@ -50,12 +50,15 @@ namespace Logica
         public Int32 ultimoLugar(Int32 columna)
         {
             Int32 fila;
-            for (fila = 0; tablero[columna, fila] != 0 && fila < 15; fila++);
+            for (fila = 0; fila < 15 && tablero[columna, fila] == 0; fila++);
             if (fila == 0) throw new Exception("Columna completa");
-            return fila;
+            return fila - 1;
         }
+		public Int32 this [Int32 X, Int32 Y] {
+			get { return tablero[X, Y]; }
+		}
     }
-    class Ganador : EventArgs
+    public class Ganador : EventArgs
     {
         public Int32 Jugador { get; private set; }
         public Ganador(Int32 J)
@@ -63,7 +66,7 @@ namespace Logica
             Jugador = J;
         }
     }
-    class Turno : EventArgs
+    public class Turno : EventArgs
     {
         public Int32 Jugador { get; private set; }
         public Int32 Columna { get; private set; }

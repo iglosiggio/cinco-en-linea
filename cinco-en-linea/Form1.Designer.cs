@@ -28,6 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+			
+			// Tablero hecho a mano
+			this.tablero = new Logica.Tablero();
+
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tablero_Graphics1 = new cinco_en_linea.Tablero_Graphics();
             this.hovertable1 = new cinco_en_linea.Hovertable();
@@ -62,6 +66,7 @@
             this.tablero_Graphics1.Size = new System.Drawing.Size(298, 278);
             this.tablero_Graphics1.TabIndex = 0;
             this.tablero_Graphics1.Text = "tablero_Graphics1";
+			this.tablero_Graphics1.ITablero = tablero;
             // 
             // hovertable1
             // 
@@ -71,8 +76,12 @@
             this.hovertable1.Size = new System.Drawing.Size(298, 37);
             this.hovertable1.TabIndex = 0;
             this.hovertable1.Text = "hovertable1";
-			this.hovertable1.HoverColumn += tablero_Graphics1.SeleccionarColumna;
-            this.hovertable1.MouseLeave += tablero_Graphics1.Hovertable_Leave;
+			this.hovertable1.HoverColumn += this.tablero_Graphics1.SeleccionarColumna;
+            this.hovertable1.MouseLeave += this.tablero_Graphics1.Hovertable_Leave;
+			this.hovertable1.MouseClick += this.tablero_Graphics1.Hovertable_Click;
+			//Tablero hecho a mano
+			this.tablero.CambioTurno += this.tablero_Graphics1.NextTurn;
+			this.tablero.Gano += (sender, e) => System.Windows.Forms.MessageBox.Show(System.String.Format("Ganó {0}", e.Jugador));
             // 
             // Form1
             // 
@@ -86,7 +95,6 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
-
         }
 
         #endregion
@@ -94,8 +102,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private Hovertable hovertable1;
         private Tablero_Graphics tablero_Graphics1;
-
-
+		private Logica.Tablero tablero;
     }
 }
 

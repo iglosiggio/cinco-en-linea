@@ -7,6 +7,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Logica;
 
 namespace cinco_en_linea
 {
@@ -25,11 +26,14 @@ namespace cinco_en_linea
 		Brush Selection = new SolidBrush(Color.Gray);
         Animation ColumnaSeleccionada;
         Timer animationTimer;
+		Int32 SColumna;
+		public Tablero ITablero;
 		public void SeleccionarColumna(object sender, HovertableEventArgs e)
 		{
-            Rectangle Col = Columna(e.Columna);
+			SColumna = e.Columna;
+            Rectangle Col = Columna(SColumna);
             if(ColumnaSeleccionada.Rect.Height == 0) {
-                Rectangle R = ColumnaSeleccionada.Rect;
+                //Rectangle R = ColumnaSeleccionada.Rect;
                 ColumnaSeleccionada.Change(new Rectangle(Col.X, 0, Col.Width, 0), 1);
                 ColumnaSeleccionada.Next();
             }
@@ -50,6 +54,18 @@ namespace cinco_en_linea
             Rectangle R = ColumnaSeleccionada.Rect;
             ColumnaSeleccionada.Change(new Rectangle(R.Location, new Size(R.Width, 0)), 10);
         }
+		public void Hovertable_Click (object sender, EventArgs e)
+		{
+			try {
+				ITablero.meterFicha(SColumna);
+			} catch (Exception ex) {
+				MessageBox.Show(ex.Message);
+			}
+		}
+		public void NextTurn (object sender, Turno e)
+		{
+			// TODO: Animaciones and shit
+		}
         public Tablero_Graphics()
         {
             DoubleBuffered = true;
@@ -71,11 +87,12 @@ namespace cinco_en_linea
             Int32 Margen = (ClientSize.Width - (Ancho * 15 + 5 * 16)) / 2;
             pe.Graphics.FillRectangle(Selection, ColumnaSeleccionada.Next());
 
-			for (int i = 5; i < (Alto + 5) * 15; i += Alto + 5)
-				for (int j = Margen + 5; j < (Ancho + 5) * 15; j += Ancho + 5)
+			for (int i = 0; i < 15; i ++)
+				for (int j = 0; j < 15; j ++)
 				{
-					pe.Graphics.FillEllipse (Colores [2], j, i, Ancho, Alto);
-					pe.Graphics.DrawEllipse (Líneas [2], j, i, Ancho, Alto);
+					Rectangle R = new Rectangle((Ancho + 5) * j + Margen + 5, (Alto + 5) * i + 5, Ancho, Alto);
+					pe.Graphics.FillEllipse (Colores [ITablero[j, i]], R);
+					pe.Graphics.DrawEllipse (Líneas [ITablero[j, i]], R);
 				}
 
         }
