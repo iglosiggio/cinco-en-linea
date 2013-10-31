@@ -23,11 +23,17 @@ namespace cinco_en_linea
             Pens.LightSkyBlue
         };
 		Brush Selection = new SolidBrush(Color.Gray);
-		Int32 ColumnaSeleccionada = 20;
+        Animation ColumnaSeleccionada;
+        Timer animationTimer;
 		public void SeleccionarColumna(object sender, HovertableEventArgs e)
 		{
-			ColumnaSeleccionada = e.Columna;
-			Invalidate();
+            Rectangle Col = Columna(e.Columna);
+            if(ColumnaSeleccionada.Rect.Height == 0) {
+                Rectangle R = ColumnaSeleccionada.Rect;
+                ColumnaSeleccionada.Change(new Rectangle(Col.X, 0, Col.Width, 0), 1);
+                ColumnaSeleccionada.Next();
+            }
+			ColumnaSeleccionada.Change(Col, 10);
 		}
 		Rectangle Columna (Int32 col)
 		{
@@ -35,11 +41,24 @@ namespace cinco_en_linea
             Int32 Ancho = (ClientSize.Width - Margen) / 15;
 			return new Rectangle(Ancho * col + Margen / 2 + 2, 0, Ancho + 2, ClientSize.Height);
 		}
-
+        void Tick(object sender, EventArgs e)
+        {
+            Invalidate();
+        }
+        public void Hovertable_Leave(object sender, EventArgs e)
+        {
+            Rectangle R = ColumnaSeleccionada.Rect;
+            ColumnaSeleccionada.Change(new Rectangle(R.Location, new Size(R.Width, 0)), 10);
+        }
         public Tablero_Graphics()
         {
-            InitializeComponent();
             DoubleBuffered = true;
+            ColumnaSeleccionada = new Animation(new Rectangle(0, 0, 0, 0), new Rectangle(0, 0, 0, 0), 0);
+            animationTimer = new Timer();
+            animationTimer.Interval = 10;
+            animationTimer.Tick += Tick;
+            animationTimer.Start();
+            InitializeComponent();
         }
 
         protected override void OnPaint (PaintEventArgs pe)
@@ -49,8 +68,8 @@ namespace cinco_en_linea
 			// Data de dibujo
 			Int32 Alto = (ClientSize.Height - 5 * 16) / 15;
 			Int32 Ancho = (ClientSize.Width - 5 * 16) / 15;
-			Int32 Margen = (ClientSize.Width - (Ancho * 15 + 5 * 16)) / 2;
-			pe.Graphics.FillRectangle (Selection, Columna (ColumnaSeleccionada));
+            Int32 Margen = (ClientSize.Width - (Ancho * 15 + 5 * 16)) / 2;
+            pe.Graphics.FillRectangle(Selection, ColumnaSeleccionada.Next());
 
 			for (int i = 5; i < (Alto + 5) * 15; i += Alto + 5)
 				for (int j = Margen + 5; j < (Ancho + 5) * 15; j += Ancho + 5)

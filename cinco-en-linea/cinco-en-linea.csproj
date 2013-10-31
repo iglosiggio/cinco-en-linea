@@ -53,6 +53,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUIUtils.cs" />
     <Compile Include="Hovertable.cs">
       <SubType>Component</SubType>
     </Compile>

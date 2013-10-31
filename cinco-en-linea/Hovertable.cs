@@ -12,10 +12,10 @@ namespace cinco_en_linea
 {
     public partial class Hovertable : Control
     {
-        enum Estados { Alone, Entering, Hovering, Leaving }
+        enum Estados { Alone, Entering, Hovering, Down, Leaving }
         Estados currentStatus;
         Timer animationControl;
-		Blend ColorBlend;
+		ColorBlend animationColor;
 		public event EventHandler<HovertableEventArgs> HoverColumn;
         public Hovertable()
         {
@@ -26,22 +26,20 @@ namespace cinco_en_linea
             animationControl.Start();
             currentStatus = Estados.Alone;
             DoubleBuffered = true;
-			ColorBlend = new Blend(BackColor, Color.Red, 20);
+			animationColor = new ColorBlend(BackColor, Color.Red, 20);
         }
         protected override void OnMouseEnter(EventArgs e)
         {
             currentStatus = Estados.Entering;
-			ColorBlend.ChangeBlend(Color.Red, 30);
+			animationColor.ChangeBlend(Color.Red, 30);
             base.OnMouseEnter(e);
             Cursor.Hide();
         }
         protected override void OnMouseLeave(EventArgs e)
         {
             currentStatus = Estados.Leaving;
-			ColorBlend.ChangeBlend(BackColor, 10);
+			animationColor.ChangeBlend(BackColor, 10);
             base.OnMouseLeave(e);
-			if(HoverColumn != null)
-				HoverColumn(this, new HovertableEventArgs(20));
             Cursor.Show();
         }
 		protected override void OnMouseMove (MouseEventArgs e)
@@ -53,7 +51,18 @@ namespace cinco_en_linea
 				if(HoverColumn != null)
 					HoverColumn(this, new HovertableEventArgs(Columna));
 			base.OnMouseMove (e);
-		}
+        }
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            currentStatus = Estados.Down;
+            animationColor.ChangeBlend(Color.DarkRed, 7);
+            base.OnMouseDown(e);
+        }
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            currentStatus = Estados.Hovering;
+            base.OnMouseDown(e);
+        }
         protected override void OnPaint(PaintEventArgs pe)
         {
             Point start = PointToClient(MousePosition);
@@ -64,7 +73,7 @@ namespace cinco_en_linea
             area.AddEllipse(new Rectangle(start, new Size(50, 50)));
 
             PathGradientBrush dibu = new PathGradientBrush(area);
-            dibu.CenterColor = ColorBlend.O;
+            dibu.CenterColor = animationColor.O;
             dibu.SurroundColors = new Color[] { BackColor };
             dibu.CenterPoint = new Point(start.X + 25, start.Y + 25);
 
@@ -78,59 +87,29 @@ namespace cinco_en_linea
 			case Estados.Alone:
 				return;
 			case Estados.Entering:
-				if (ColorBlend.Ready)
+				if (animationColor.Ready)
 					currentStatus = Estados.Hovering;
-				else ColorBlend.Next();
+				else animationColor.Next();
 				break;
 			case Estados.Hovering:
-				if(ColorBlend.Ready)
-					if(ColorBlend.O.ToArgb() == Color.Red.ToArgb())
-						ColorBlend.ChangeBlend(Color.DarkRed, 7);
-					else if(ColorBlend.O.ToArgb() == Color.DarkRed.ToArgb())
-						ColorBlend.ChangeBlend(Color.Red, 7);
-				ColorBlend.Next();
+				if(animationColor.Ready)
+					if(animationColor.O.ToArgb() == Color.Red.ToArgb())
+						animationColor.ChangeBlend(Color.DarkRed, 7);
+					else if(animationColor.O.ToArgb() == Color.DarkRed.ToArgb())
+						animationColor.ChangeBlend(Color.Red, 7);
+				animationColor.Next();
 				break;
+            case Estados.Down:
+                if(!animationColor.Ready)
+                    animationColor.Next();
+                break;
 			case Estados.Leaving:
-				if (ColorBlend.Ready)
+				if (animationColor.Ready)
 					currentStatus = Estados.Alone;
-				else ColorBlend.Next();
+				else animationColor.Next();
 				break;
 			}
 			Invalidate ();
-		}
-		class Blend {
-			public Color O { get; private set; }
-			public Color D { get; private set; }
-			public Int32 Pasos { get; private set; }
-			public Blend(Color _O, Color _D, Int32 _Pasos)
-			{
-				O = _O;
-				D = _D;
-				Pasos = _Pasos;
-			}
-			public void ChangeBlend(Color _D, Int32 _Pasos)
-			{
-				D = _D;
-				Pasos = _Pasos;
-			}
-			public bool Ready { get { return Pasos == 0; } }
-			public void Next() {
-				if(Pasos == 0)
-					return;
-				Int32 A, R, G, B;
-				A = O.A + (D.A - O.A) / Pasos;
-				R = O.R + (D.R - O.R) / Pasos;
-				G = O.G + (D.G - O.G) / Pasos;
-				B = O.B + (D.B - O.B) / Pasos;
-				Int32[] C = { A, R, G, B };
-				for (int i = 0; i < 4; i++)
-					if(C[i] < 0)
-						C[i] = 0;
-					else if(C[i] > 255)
-						C[i] = 255;
-				Pasos--;
-				O = Color.FromArgb(C[0], C[1], C[2], C[3]);
-			}
 		}
     }
     public class HovertableEventArgs : EventArgs
