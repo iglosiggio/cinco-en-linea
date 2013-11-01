@@ -81,7 +81,7 @@
 			//Tablero hecho a mano
 			this.tablero.CambioTurno += this.tablero_Graphics1.NextTurn;
 			this.tablero.CambioTurno += this.hovertable1.nextTurn;
-			this.tablero.Gano += (sender, e) => System.Windows.Forms.MessageBox.Show (System.String.Format ("Ganó {0}", e.Jugador));
+			this.tablero.Gano += Provisorio;
 			// 
 			// Form1
 			// 
@@ -103,6 +103,10 @@
 		private Hovertable hovertable1;
 		private Tablero_Graphics tablero_Graphics1;
 		private Logica.Tablero tablero;
+        
+        void Provisorio(object s, Logica.Ganador e) {
+            System.Windows.Forms.MessageBox.Show(System.String.Format("Ganó {0}", e.Jugador));
+        }
 	}
 }
 

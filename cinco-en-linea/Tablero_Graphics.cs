@@ -35,9 +35,9 @@ namespace cinco_en_linea
 			if (ColumnaSeleccionada.Rect.Height == 0) {
 				ColumnaSeleccionada.Change (new Rectangle (Col.X, 0, Col.Width, 0), 1);
 				ColumnaSeleccionada.Next ();
-				ColumnaSeleccionada.Change (Col, 5);
+				ColumnaSeleccionada.Change (Col, 10);
 			}
-			else ColumnaSeleccionada.Change (Col, 4);
+			else ColumnaSeleccionada.Change (Col, 10);
 			SColumna = e.Columna;
 		}
 
@@ -57,7 +57,7 @@ namespace cinco_en_linea
 		{
 			SColumna = 20;
 			Rectangle R = ColumnaSeleccionada.Rect;
-			ColumnaSeleccionada.Change (new Rectangle (R.Location, new Size (R.Width, 0)), 5);
+			ColumnaSeleccionada.Change (new Rectangle (R.Location, new Size (R.Width, 0)), 10);
 		}
 
 		public void Hovertable_Click (object sender, EventArgs e)
