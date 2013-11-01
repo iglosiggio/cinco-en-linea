@@ -23,7 +23,7 @@ namespace cinco_en_linea
 		}
 		Color[,] cursorColor = {
 			{ Color.IndianRed, Color.DarkRed },
-			{ Color.SkyBlue, Color.DarkBlue }
+			{ Color.RoyalBlue, Color.DarkBlue }
 		};
 		Int32 Jugador = 0;
 		Estados currentStatus;
@@ -61,7 +61,7 @@ namespace cinco_en_linea
 		protected override void OnMouseLeave (EventArgs e)
 		{
 			currentStatus = Estados.Leaving;
-			animationColor.ChangeBlend (BackColor, 10);
+			animationColor.ChangeBlend (BackColor, 7);
 			base.OnMouseLeave (e);
 			Cursor.Show ();
 		}
@@ -124,9 +124,9 @@ namespace cinco_en_linea
 			case Estados.Hovering:
 				if (animationColor.Ready)
 				if (animationColor.O.ToArgb () == cursorColor [Jugador, 0].ToArgb ())
-					animationColor.ChangeBlend (cursorColor [Jugador, 1], 7);
+					animationColor.ChangeBlend (cursorColor [Jugador, 1], 15);
 				else if (animationColor.O.ToArgb () == cursorColor [Jugador, 1].ToArgb ())
-					animationColor.ChangeBlend (cursorColor [Jugador, 0], 7);
+					animationColor.ChangeBlend (cursorColor [Jugador, 0], 15);
 				animationColor.Next ();
 				break;
 			case Estados.Down:
