@@ -50,11 +50,24 @@ namespace Logica
 			CambioTurno (this, new Turno (Jugador, columna, fila));
 		}
 
+        public Boolean columnaLlena(Int32 columna)
+        {
+            Boolean RVal = false;
+            try
+            {
+                ultimoLugar(columna);
+            }
+            catch (Exception)
+            {
+                RVal = true;
+            }
+            return RVal;
+        }
+
 		public Int32 ultimoLugar (Int32 columna)
 		{
 			Int32 fila;
-			for (fila = 0; fila < 15 && tablero[columna, fila] == 0; fila++)
-				;
+			for (fila = 0; fila < 15 && tablero[columna, fila] == 0; fila++);
 			if (fila == 0)
 				throw new Exception ("Columna completa");
 			return fila - 1;

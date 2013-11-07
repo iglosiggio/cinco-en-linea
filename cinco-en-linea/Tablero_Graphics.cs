@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -30,7 +31,10 @@ namespace cinco_en_linea
         Estados currentStatus;
         ColorBlend animationColor;
 
-        // TABLER: DATA
+        // ANIMACIONES
+        RectangleBlend ColumnaSeleccionada;
+
+        // TABLERO: DATA
 		Brush[] Colores = {
             Brushes.LightGray,
             Brushes.Pink,
@@ -41,8 +45,6 @@ namespace cinco_en_linea
             Pens.DeepPink,
             Pens.RoyalBlue
         };
-		Brush Selection = new SolidBrush (Color.Gray);
-		Animation ColumnaSeleccionada;
 		Timer animationTimer;
 		Int32 SColumna = 20;
 
@@ -87,7 +89,7 @@ namespace cinco_en_linea
 
             // TABLERO: CTOR
 			DoubleBuffered = true;
-			ColumnaSeleccionada = new Animation (new Rectangle (0, 0, 0, 0), new Rectangle (0, 0, 0, 0), 0);
+			ColumnaSeleccionada = new RectangleBlend (new Rectangle (0, 0, 0, 0), new Rectangle (0, 0, 0, 0), 0, 1);
 			animationTimer = new Timer ();
 			animationTimer.Interval = 10;
 			animationTimer.Tick += new EventHandler(Tick);
@@ -108,10 +110,15 @@ namespace cinco_en_linea
 
 		protected override void OnPaint (PaintEventArgs pe)
 		{
+            pe.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 			base.OnPaint (pe);
 
+            foreach (KeyValuePair<Animable, Int32> Widget in Animable.Animations)
+            {
+                Widget.Key.DrawFrame(pe);
+            }
+
 			// Data de dibujo
-			pe.Graphics.FillRectangle (Selection, ColumnaSeleccionada.Next ());
 			for (int i = 0; i < 15; i ++)
 				for (int j = 0; j < 15; j ++) {
                     Rectangle R = new Rectangle((Ficha_Ancho + 5) * j + Margen + 5, (Ficha_Alto + 5) * i + 5, Ficha_Ancho, Ficha_Alto);
@@ -147,8 +154,7 @@ namespace cinco_en_linea
         {
             Rectangle Col = ColumnaSeleccionada.Rect;
             currentStatus = Estados.Entering;
-            ColumnaSeleccionada.Change(new Rectangle(Col.X, 0, Col.Width, 0), 1);
-            ColumnaSeleccionada.Next();
+            ColumnaSeleccionada.Change(new Rectangle(Col.X, 0, Col.Width, 0), 1, MiTablero.columnaLlena(SColumna));
 
             animationColor.ChangeBlend(cursorColor[Jugador, 0], 30);
             base.OnMouseEnter(e);
@@ -161,7 +167,7 @@ namespace cinco_en_linea
 
             SColumna = 20;
             Rectangle R = ColumnaSeleccionada.Rect;
-            ColumnaSeleccionada.Change(new Rectangle(R.Location, new Size(R.Width, 0)), 10);
+            ColumnaSeleccionada.Change(new Rectangle(R.Location, new Size(R.Width, 0)), 10, false);
             base.OnMouseLeave(e);
         }
 
@@ -171,7 +177,7 @@ namespace cinco_en_linea
             if (PColumna < 15 && PColumna >= 0)
             {
                 SColumna = PColumna;
-                ColumnaSeleccionada.Change(Columna(SColumna), 10);
+                ColumnaSeleccionada.Change(Columna(SColumna), 10, MiTablero.columnaLlena(SColumna));
             }
             base.OnMouseMove(e);
         }
@@ -197,7 +203,12 @@ namespace cinco_en_linea
                 MessageBox.Show(ex.Message);
             }
         }
-
+        protected override void OnClientSizeChanged(EventArgs e)
+        {
+            base.OnClientSizeChanged(e);
+            if(Dock != DockStyle.None)
+                Invalidate();
+        }
         void doMagic(object sender, EventArgs e)
         {
             switch (currentStatus)
@@ -229,7 +240,6 @@ namespace cinco_en_linea
                         animationColor.Next();
                     break;
             }
-            Invalidate();
         }
 	}
 }

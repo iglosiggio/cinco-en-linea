@@ -1,0 +1,60 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
+
+namespace cinco_en_linea
+{
+    abstract class Animable
+    {
+        public static SortedList<Animable, Int32> Animations = new SortedList<Animable,int>();
+        public Animable(Int32 Prioridad)
+        {
+            Animations.Add(this, Prioridad);
+        }
+        abstract public void DrawFrame(PaintEventArgs e);
+    }
+    class RectangleBlend : Animable
+    {
+        Rectangle Origen;
+        Rectangle Dest;
+        ColorBlend RColor;
+        public Int32 Pasos { get; private set; }
+        public Rectangle Rect { get { return Origen; } }
+        public RectangleBlend(Rectangle _Rect, Rectangle _Dest, Int32 Duración, Int32 Prioridad) : base(Prioridad)
+        {
+            Origen = _Rect;
+            Dest = _Dest;
+            Pasos = Duración;
+            RColor = new ColorBlend(Color.Gray, Color.Gray, 0);
+        }
+
+        public void Change(Rectangle _Dest, Int32 Duración, Boolean Full)
+        {
+            Dest = _Dest;
+            Pasos = Duración;
+            if (Full)
+                RColor.ChangeBlend(Color.Red, 10);
+            else
+                RColor.ChangeBlend(Color.Gray, 10);
+        }
+        public override void DrawFrame(PaintEventArgs e)
+        {
+            if (Pasos != 0)
+            {
+                Origen.X += (Dest.X - Origen.X) / Pasos;
+                Origen.Y += (Dest.Y - Origen.Y) / Pasos;
+                Origen.Height += (Dest.Height - Origen.Height) / Pasos;
+                Origen.Width += (Dest.Width - Origen.Width) / Pasos;
+                Pasos--;
+            }
+            RColor.Next();
+            Brush b = new SolidBrush(RColor.O);
+            e.Graphics.FillRectangle(b, Origen);
+            b.Dispose();
+        }
+    }
+}
