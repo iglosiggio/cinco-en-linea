@@ -70,17 +70,22 @@ namespace cinco_en_linea
 	class Ficha : RectangleBlend
 	{
 		Int32 Col;
+		Brush Color;
+		Pen Línea;
 		public static Dictionary<Int32, Ficha> Fichas = new Dictionary<int, Ficha>();
-		public Ficha(Int32 Columna, Rectangle _Ficha, Point Final, Int32 Prioridad)
+		public Ficha(Int32 Columna, Rectangle _Ficha, Point Final, Int32 Prioridad, Brush FColor, Pen FLínea)
 			: base(_Ficha, new Rectangle(Final, _Ficha.Size), 10, Prioridad)
 		{
 			Col = Columna;
+			Color = FColor;
+			Línea = FLínea;
 			Fichas.Add(Columna, this);
 		}
 		public override void DrawFrame (PaintEventArgs e)
 		{
 			base.Next ();
-			e.Graphics.FillEllipse (Brushes.Red, Rect);
+			e.Graphics.FillEllipse (Color, Rect);
+			e.Graphics.DrawEllipse (Línea, Rect);
 			if (Pasos == 0) {
 				Animations.Remove(ID);
 				Fichas.Remove(Col);

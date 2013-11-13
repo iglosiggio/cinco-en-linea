@@ -44,6 +44,8 @@ namespace Logica
 		public void meterFicha (Int32 columna)
 		{
 			Int32 fila = ultimoLugar (columna);
+			if(fila == -1)
+				throw new InvalidOperationException ("Columna completa");
 			tablero [columna, fila] = Jugador;
 			gano ();
 			Jugador = Jugador == 1 ? 2 : 1;
@@ -52,25 +54,18 @@ namespace Logica
 
         public Boolean columnaLlena(Int32 columna)
         {
-            Boolean RVal = false;
-            try
-            {
-                ultimoLugar(columna);
-            }
-            catch (Exception)
-            {
-                RVal = true;
-            }
-            return RVal;
+			return ultimoLugar(columna) == -1;
         }
 
 		public Int32 ultimoLugar (Int32 columna)
 		{
 			Int32 fila;
-			for (fila = 0; fila < 15 && tablero[columna, fila] == 0; fila++);
-			if (fila == 0)
-				throw new Exception ("Columna completa");
-			return fila - 1;
+			try {
+				for (fila = 0; fila < 15 && tablero[columna, fila] == 0; fila++);
+				return fila - 1;
+			} catch (Exception) {
+				return -1;
+			}
 		}
 
 		public Int32 this [Int32 X, Int32 Y] {

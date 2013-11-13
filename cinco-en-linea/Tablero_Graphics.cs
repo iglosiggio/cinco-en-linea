@@ -124,8 +124,16 @@ namespace cinco_en_linea
 			for (int i = 0; i < 15; i ++)
 				for (int j = 0; j < 15; j ++) {
                     Rectangle R = new Rectangle((Ficha_Ancho + 5) * j + Margen + 5, (Ficha_Alto + 5) * i + 5, Ficha_Ancho, Ficha_Alto);
-					pe.Graphics.FillEllipse (Colores [MiTablero [j, i]], R);
-					pe.Graphics.DrawEllipse (Líneas [MiTablero [j, i]], R);
+					if(Ficha.Fichas.ContainsKey(j) && MiTablero.ultimoLugar(j) + 1 == i)
+					{
+						pe.Graphics.FillEllipse(Colores [0], R);
+						pe.Graphics.DrawEllipse(Líneas [0], R);
+					}
+					else
+					{
+						pe.Graphics.FillEllipse (Colores [MiTablero [j, i]], R);
+						pe.Graphics.DrawEllipse (Líneas [MiTablero [j, i]], R);
+					}
 				}
 			try {
                 Rectangle actual = new Rectangle((Ficha_Ancho + 5) * SColumna + Margen + 5, (Ficha_Alto + 5) * MiTablero.ultimoLugar(SColumna) + 5, Ficha_Ancho, Ficha_Alto);
@@ -205,7 +213,6 @@ namespace cinco_en_linea
             base.OnMouseClick(e);
             try
             {
-                MiTablero.meterFicha(SColumna);
 				Rectangle R = new Rectangle(
 					Margen + (Ficha_Ancho + 5) * SColumna + 5,
 					- Ficha_Alto,
@@ -219,13 +226,15 @@ namespace cinco_en_linea
 						R.X,
 						(Ficha_Alto + 5) * MiTablero.ultimoLugar(SColumna) + 5
 					),
-					11
+					11,
+					Colores[Jugador + 1],
+					Líneas[Jugador + 1]
 				);
+				MiTablero.meterFicha(SColumna);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message);
-				throw ex;
+				Console.WriteLine("OOoopss!");
             }
         }
         protected override void OnClientSizeChanged(EventArgs e)
