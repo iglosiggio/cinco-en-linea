@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,12 +11,15 @@ namespace cinco_en_linea
 {
     abstract class Animable
     {
-        public static SortedList<Animable, Int32> Animations = new SortedList<Animable,int>();
+		public readonly Int32 ID;
+        public static SortedList<Int32, Animable> Animations = new SortedList<Int32, Animable>();
         public Animable(Int32 Prioridad)
         {
-            Animations.Add(this, Prioridad);
+			ID = Prioridad;
+            Animations.Add(Prioridad, this);
         }
         abstract public void DrawFrame(PaintEventArgs e);
+		abstract public void Next();
     }
     class RectangleBlend : Animable
     {
@@ -24,7 +28,8 @@ namespace cinco_en_linea
         ColorBlend RColor;
         public Int32 Pasos { get; private set; }
         public Rectangle Rect { get { return Origen; } }
-        public RectangleBlend(Rectangle _Rect, Rectangle _Dest, Int32 Duración, Int32 Prioridad) : base(Prioridad)
+        public RectangleBlend(Rectangle _Rect, Rectangle _Dest, Int32 Duración, Int32 Prioridad)
+			: base(Prioridad)
         {
             Origen = _Rect;
             Dest = _Dest;
@@ -41,9 +46,9 @@ namespace cinco_en_linea
             else
                 RColor.ChangeBlend(Color.Gray, 10);
         }
-        public override void DrawFrame(PaintEventArgs e)
-        {
-            if (Pasos != 0)
+		public override void Next ()
+		{
+			if (Pasos != 0)
             {
                 Origen.X += (Dest.X - Origen.X) / Pasos;
                 Origen.Y += (Dest.Y - Origen.Y) / Pasos;
@@ -51,10 +56,35 @@ namespace cinco_en_linea
                 Origen.Width += (Dest.Width - Origen.Width) / Pasos;
                 Pasos--;
             }
+
+		}
+        public override void DrawFrame(PaintEventArgs e)
+        {
+			Next();
             RColor.Next();
             Brush b = new SolidBrush(RColor.O);
             e.Graphics.FillRectangle(b, Origen);
             b.Dispose();
         }
     }
+	class Ficha : RectangleBlend
+	{
+		Int32 Col;
+		public static Dictionary<Int32, Ficha> Fichas = new Dictionary<int, Ficha>();
+		public Ficha(Int32 Columna, Rectangle _Ficha, Point Final, Int32 Prioridad)
+			: base(_Ficha, new Rectangle(Final, _Ficha.Size), 10, Prioridad)
+		{
+			Col = Columna;
+			Fichas.Add(Columna, this);
+		}
+		public override void DrawFrame (PaintEventArgs e)
+		{
+			base.Next ();
+			e.Graphics.FillEllipse (Brushes.Red, Rect);
+			if (Pasos == 0) {
+				Animations.Remove(ID);
+				Fichas.Remove(Col);
+			}
+		}
+	}
 }

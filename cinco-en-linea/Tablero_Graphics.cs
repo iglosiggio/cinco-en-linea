@@ -113,9 +113,11 @@ namespace cinco_en_linea
             pe.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 			base.OnPaint (pe);
 
-            foreach (KeyValuePair<Animable, Int32> Widget in Animable.Animations)
+            foreach (KeyValuePair<Int32, Animable> Widget in Animable.Animations)
             {
-                Widget.Key.DrawFrame(pe);
+				if(Widget.Key > 10)
+					break;
+                Widget.Value.DrawFrame(pe);
             }
 
 			// Data de dibujo
@@ -131,6 +133,13 @@ namespace cinco_en_linea
 				pe.Graphics.DrawEllipse (Pens.Green, actual);
 			} catch (Exception) {
 			}
+
+			foreach (KeyValuePair<Int32, Animable> Widget in Animable.Animations)
+            {
+				if(Widget.Key < 10)
+					continue;
+                Widget.Value.DrawFrame(pe);
+            }
 
             // HOVERTABLE: DRAW
             Point start = PointToClient(MousePosition);
@@ -197,10 +206,26 @@ namespace cinco_en_linea
             try
             {
                 MiTablero.meterFicha(SColumna);
+				Rectangle R = new Rectangle(
+					Margen + (Ficha_Ancho + 5) * SColumna + 5,
+					- Ficha_Alto,
+					Ficha_Ancho,
+					Ficha_Alto
+				);
+				new Ficha(
+					SColumna,
+					R,
+					new Point(
+						R.X,
+						(Ficha_Alto + 5) * MiTablero.ultimoLugar(SColumna) + 5
+					),
+					11
+				);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+				throw ex;
             }
         }
         protected override void OnClientSizeChanged(EventArgs e)
