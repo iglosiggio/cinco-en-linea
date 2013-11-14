@@ -13,6 +13,8 @@ namespace cinco_en_linea
     {
 		public readonly Int32 ID;
         public static SortedList<Int32, Animable> Animations = new SortedList<Int32, Animable>();
+        public delegate void Do();
+        public static Do postForEach;
         public Animable(Int32 Prioridad)
         {
 			ID = Prioridad;
@@ -20,6 +22,11 @@ namespace cinco_en_linea
         }
         abstract public void DrawFrame(PaintEventArgs e);
 		abstract public void Next();
+        protected virtual void Remove()
+        {
+            Animations.Remove(ID);
+            postForEach -= Remove;
+        }
     }
     class RectangleBlend : Animable
     {
@@ -74,7 +81,7 @@ namespace cinco_en_linea
 		Pen Línea;
 		public static Dictionary<Int32, Ficha> Fichas = new Dictionary<int, Ficha>();
 		public Ficha(Int32 Columna, Rectangle _Ficha, Point Final, Int32 Prioridad, Brush FColor, Pen FLínea)
-			: base(_Ficha, new Rectangle(Final, _Ficha.Size), 10, Prioridad)
+			: base(_Ficha, new Rectangle(Final, _Ficha.Size), 20, Prioridad)
 		{
 			Col = Columna;
 			Color = FColor;
@@ -87,9 +94,13 @@ namespace cinco_en_linea
 			e.Graphics.FillEllipse (Color, Rect);
 			e.Graphics.DrawEllipse (Línea, Rect);
 			if (Pasos == 0) {
-				Animations.Remove(ID);
-				Fichas.Remove(Col);
+                postForEach += Remove;
 			}
 		}
+        protected override void Remove()
+        {
+            Fichas.Remove(Col);
+            base.Remove();
+        }
 	}
 }

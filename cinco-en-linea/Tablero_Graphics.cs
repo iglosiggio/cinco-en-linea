@@ -149,6 +149,9 @@ namespace cinco_en_linea
                 Widget.Value.DrawFrame(pe);
             }
 
+            if (Animable.postForEach != null)
+                Animable.postForEach();
+
             // HOVERTABLE: DRAW
             Point start = PointToClient(MousePosition);
             //PROVISORIO
@@ -180,7 +183,7 @@ namespace cinco_en_linea
         protected override void OnMouseLeave(EventArgs e)
         {
             currentStatus = Estados.Leaving;
-            animationColor.ChangeBlend(BackColor, 7);
+            animationColor.ChangeBlend(Color.FromArgb(0), 7);
 
             SColumna = 20;
             Rectangle R = ColumnaSeleccionada.Rect;
