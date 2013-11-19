@@ -76,17 +76,17 @@ namespace cinco_en_linea
     }
 	class Ficha : RectangleBlend
 	{
-		Int32 Col;
+		Point Ubicación;
 		Brush Color;
 		Pen Línea;
-		public static Dictionary<Int32, Ficha> Fichas = new Dictionary<int, Ficha>();
-		public Ficha(Int32 Columna, Rectangle _Ficha, Point Final, Int32 Prioridad, Brush FColor, Pen FLínea)
-			: base(_Ficha, new Rectangle(Final, _Ficha.Size), 20, Prioridad)
+		public static Dictionary<Point, Ficha> Fichas = new Dictionary<Point, Ficha>();
+		public Ficha(Int32 Columna, Int32 Fila, Rectangle _Ficha, Point Final, Brush FColor, Pen FLínea)
+			: base(_Ficha, new Rectangle(Final, _Ficha.Size), 20, (Columna + 1) * (Fila + 15))
 		{
-			Col = Columna;
+			Ubicación = new Point(Columna, Fila);
 			Color = FColor;
 			Línea = FLínea;
-			Fichas.Add(Columna, this);
+			Fichas.Add(Ubicación, this);
 		}
 		public override void DrawFrame (PaintEventArgs e)
 		{
@@ -99,7 +99,7 @@ namespace cinco_en_linea
 		}
         protected override void Remove()
         {
-            Fichas.Remove(Col);
+            Fichas.Remove(Ubicación);
             base.Remove();
         }
 	}

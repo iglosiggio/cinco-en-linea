@@ -24,8 +24,8 @@ namespace cinco_en_linea
             Leaving
         }
         Color[,] cursorColor = {
-			{ Color.IndianRed, Color.DarkRed },
-			{ Color.RoyalBlue, Color.DarkBlue }
+			{ Color.RoyalBlue, Color.DarkBlue },
+			{ Color.IndianRed, Color.DarkRed }
 		};
         Int32 Jugador = 0;
         Estados currentStatus;
@@ -68,12 +68,30 @@ namespace cinco_en_linea
         {
             Jugador = e.Jugador - 1;
             animationColor.ChangeBlend(cursorColor[Jugador, 0], 7);
+			try
+            {
+                Rectangle R = new Rectangle(
+                    Margen + (Ficha_Ancho + 5) * e.Columna + 5,
+                    -Ficha_Alto,
+                    Ficha_Ancho,
+                    Ficha_Alto
+                );
+                new Ficha(
+                    e.Columna,
+					e.Fila,
+                    R,
+                    new Point(
+                        R.X,
+                        (Ficha_Alto + 5) * e.Fila + 5
+                    ),
+                    Colores[e.Jugador],
+                    Líneas[e.Jugador]
+                );
+            }
+            catch (Exception)
+            {
+            }
         }
-
-		public void NextTurn (object sender, Turno e)
-		{
-			// TODO: Animaciones and shit 
-		}
 
         public void Ganó(object sender, Ganador e)
         {
@@ -85,7 +103,7 @@ namespace cinco_en_linea
             // HOVERDATA: CTOR
             currentStatus = Estados.Alone;
             DoubleBuffered = true;
-            animationColor = new ColorBlend(BackColor, Color.Red, 20);
+            animationColor = new ColorBlend(Color.FromArgb(0), Color.Red, 20);
 
             // TABLERO: CTOR
 			DoubleBuffered = true;
@@ -96,7 +114,7 @@ namespace cinco_en_linea
             animationTimer.Tick += new EventHandler(doMagic);
 			animationTimer.Start ();
 
-            MiTablero = new Tablero();
+            MiTablero = new Tablero(Dificultad.Fácil);
             MiTablero.CambioTurno += new EventHandler<Turno>(CambioTurno);
             MiTablero.Gano += new EventHandler<Ganador>(Ganó);
 
@@ -124,7 +142,7 @@ namespace cinco_en_linea
 			for (int i = 0; i < 15; i ++)
 				for (int j = 0; j < 15; j ++) {
                     Rectangle R = new Rectangle((Ficha_Ancho + 5) * j + Margen + 5, (Ficha_Alto + 5) * i + 5, Ficha_Ancho, Ficha_Alto);
-					if(Ficha.Fichas.ContainsKey(j) && MiTablero.ultimoLugar(j) + 1 == i)
+					if(Ficha.Fichas.ContainsKey(new Point(j, i)))
 					{
 						pe.Graphics.FillEllipse(Colores [0], R);
 						pe.Graphics.DrawEllipse(Líneas [0], R);
@@ -214,31 +232,7 @@ namespace cinco_en_linea
         protected override void OnMouseClick(MouseEventArgs e)
         {
             base.OnMouseClick(e);
-            try
-            {
-				Rectangle R = new Rectangle(
-					Margen + (Ficha_Ancho + 5) * SColumna + 5,
-					- Ficha_Alto,
-					Ficha_Ancho,
-					Ficha_Alto
-				);
-				new Ficha(
-					SColumna,
-					R,
-					new Point(
-						R.X,
-						(Ficha_Alto + 5) * MiTablero.ultimoLugar(SColumna) + 5
-					),
-					11,
-					Colores[Jugador + 1],
-					Líneas[Jugador + 1]
-				);
-				MiTablero.meterFicha(SColumna);
-            }
-            catch (Exception)
-            {
-				Console.WriteLine("OOoopss!");
-            }
+            MiTablero.meterFicha(SColumna);
         }
         protected override void OnClientSizeChanged(EventArgs e)
         {
