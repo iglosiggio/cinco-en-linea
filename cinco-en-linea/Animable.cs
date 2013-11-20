@@ -103,4 +103,39 @@ namespace cinco_en_linea
             base.Remove();
         }
 	}
+    class Cartel : Animable
+    {
+        String Texto;
+        Brush Color;
+        Font Letra;
+        StringFormat Centrado;
+        public Cartel(String _Texto, Color _Color, FontFamily _Letra, Int32 ID) : base(ID)
+        {
+            Texto = _Texto;
+            Color = new SolidBrush(_Color);
+            Letra = new Font(_Letra, 30);
+            Centrado = new StringFormat();
+            Centrado.Alignment = StringAlignment.Center;
+            Centrado.LineAlignment = StringAlignment.Center;
+        }
+        public override void DrawFrame(PaintEventArgs e)
+        {
+            Point P = new Point(
+                e.ClipRectangle.Width / 2,
+                e.ClipRectangle.Height / 2
+            );
+
+            e.Graphics.DrawString(Texto, Letra, Color, P, Centrado);
+        }
+        public override void Next()
+        {
+            throw new NotImplementedException();
+        }
+        protected override void Remove()
+        {
+            Letra.Dispose();
+            Centrado.Dispose();
+            base.Remove();
+        }
+    }
 }
