@@ -15,5 +15,15 @@ namespace cinco_en_linea
 		{
 			InitializeComponent ();
 		}
+
+        private void conUnAmigoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tablero_Graphics1.CambiarDificultad(Logica.Dificultad.PvP);
+        }
+
+        private void fácilToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tablero_Graphics1.CambiarDificultad(Logica.Dificultad.Fácil);
+        }
 	}
 }

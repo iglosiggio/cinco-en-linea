@@ -4,16 +4,26 @@ using System.Linq;
 
 namespace Logica
 {
+    public enum Dificultad { Fácil, Medio, Difícil, PvP };
 	public class Tablero
 	{
 		Int32[,] tablero;
 		Int32 Jugador = 1;
-
+        Bot Jugador2;
 		public event EventHandler<Ganador> Gano;
 		public event EventHandler<Turno> CambioTurno;
 
-		public Tablero ()
+		public Tablero (Dificultad Dif)
 		{
+            switch (Dif)
+            {
+                case Dificultad.Fácil:
+                    Jugador2 = new BotFácil(this);
+                    break;
+                case Dificultad.PvP:
+                    Jugador2 = null;
+					break;
+            }
 			tablero = new int[15, 15];
 		}
 
@@ -44,20 +54,32 @@ namespace Logica
 		public void meterFicha (Int32 columna)
 		{
 			Int32 fila = ultimoLugar (columna);
+			if(fila == -1)
+				throw new InvalidOperationException ("Columna completa");
 			tablero [columna, fila] = Jugador;
 			gano ();
-			Jugador = Jugador == 1 ? 2 : 1;
 			CambioTurno (this, new Turno (Jugador, columna, fila));
+			Jugador = Jugador == 1 ? 2 : 1;
+            if (Jugador == 2 && Jugador2 != null)
+            {
+                meterFicha(Jugador2.Turno());
+            }
 		}
+
+        public Boolean columnaLlena(Int32 columna)
+        {
+			return ultimoLugar(columna) == -1;
+        }
 
 		public Int32 ultimoLugar (Int32 columna)
 		{
 			Int32 fila;
-			for (fila = 0; fila < 15 && tablero[columna, fila] == 0; fila++)
-				;
-			if (fila == 0)
-				throw new Exception ("Columna completa");
-			return fila - 1;
+			try {
+				for (fila = 0; fila < 15 && tablero[columna, fila] == 0; fila++);
+				return fila - 1;
+			} catch (Exception) {
+				return -1;
+			}
 		}
 
 		public Int32 this [Int32 X, Int32 Y] {
@@ -90,4 +112,30 @@ namespace Logica
 			Fila = F;
 		}
 	}
+    public abstract class Bot
+    {
+        protected Tablero T;
+        public Bot(Tablero _T)
+        {
+            T = _T;
+        }
+        public abstract Int32 Turno();
+    }
+    public class BotFácil : Bot
+    {
+        Random R;
+        public BotFácil(Tablero _T)
+            : base(_T)
+        {
+            R = new Random();
+        }
+        public override int Turno()
+        {
+            Int32 Columna;
+            do{
+                Columna = R.Next(0, 14);
+            } while (T.columnaLlena(Columna));
+            return Columna;
+        }
+    }
 }

@@ -1,0 +1,3 @@
+Current    Reconstruir todo el código de dibujado para
+Working -> conseguir más rendimiento y que sea más fácil
+Freature   implementar los decorados del tablero!

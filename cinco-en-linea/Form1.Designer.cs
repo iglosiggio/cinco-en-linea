@@ -27,15 +27,79 @@
 		/// </summary>
 		private void InitializeComponent ()
 		{
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.nuevaPartidaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.humanoVsComputadoraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fácilToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.medioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.difícilToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.conUnAmigoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tablero_Graphics1 = new cinco_en_linea.Tablero_Graphics();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nuevaPartidaToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(329, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // nuevaPartidaToolStripMenuItem
+            // 
+            this.nuevaPartidaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.humanoVsComputadoraToolStripMenuItem,
+            this.conUnAmigoToolStripMenuItem});
+            this.nuevaPartidaToolStripMenuItem.Name = "nuevaPartidaToolStripMenuItem";
+            this.nuevaPartidaToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+            this.nuevaPartidaToolStripMenuItem.Text = "Nueva partida";
+            // 
+            // humanoVsComputadoraToolStripMenuItem
+            // 
+            this.humanoVsComputadoraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fácilToolStripMenuItem,
+            this.medioToolStripMenuItem,
+            this.difícilToolStripMenuItem});
+            this.humanoVsComputadoraToolStripMenuItem.Name = "humanoVsComputadoraToolStripMenuItem";
+            this.humanoVsComputadoraToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.humanoVsComputadoraToolStripMenuItem.Text = "Sólo (PvC)";
+            // 
+            // fácilToolStripMenuItem
+            // 
+            this.fácilToolStripMenuItem.Name = "fácilToolStripMenuItem";
+            this.fácilToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fácilToolStripMenuItem.Text = "Fácil";
+            this.fácilToolStripMenuItem.Click += new System.EventHandler(this.fácilToolStripMenuItem_Click);
+            // 
+            // medioToolStripMenuItem
+            // 
+            this.medioToolStripMenuItem.Name = "medioToolStripMenuItem";
+            this.medioToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.medioToolStripMenuItem.Text = "Medio";
+            // 
+            // difícilToolStripMenuItem
+            // 
+            this.difícilToolStripMenuItem.Name = "difícilToolStripMenuItem";
+            this.difícilToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.difícilToolStripMenuItem.Text = "Difícil";
+            // 
+            // conUnAmigoToolStripMenuItem
+            // 
+            this.conUnAmigoToolStripMenuItem.Name = "conUnAmigoToolStripMenuItem";
+            this.conUnAmigoToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.conUnAmigoToolStripMenuItem.Text = "Con un amigo (PvP)";
+            this.conUnAmigoToolStripMenuItem.Click += new System.EventHandler(this.conUnAmigoToolStripMenuItem_Click);
             // 
             // tablero_Graphics1
             // 
             this.tablero_Graphics1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tablero_Graphics1.Location = new System.Drawing.Point(0, 0);
+            this.tablero_Graphics1.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tablero_Graphics1.Location = new System.Drawing.Point(0, 24);
             this.tablero_Graphics1.Name = "tablero_Graphics1";
-            this.tablero_Graphics1.Size = new System.Drawing.Size(329, 325);
+            this.tablero_Graphics1.Size = new System.Drawing.Size(329, 301);
             this.tablero_Graphics1.TabIndex = 0;
             this.tablero_Graphics1.Text = "tablero_Graphics1";
             // 
@@ -45,15 +109,27 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(329, 325);
             this.Controls.Add(this.tablero_Graphics1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Cinco en línea";
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 
         #endregion
 
         private Tablero_Graphics tablero_Graphics1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem nuevaPartidaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem humanoVsComputadoraToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fácilToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem medioToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem difícilToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem conUnAmigoToolStripMenuItem;
 	}
 }
 
