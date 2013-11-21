@@ -20,8 +20,8 @@ namespace Logica
                 case Dificultad.Fácil:
                     Jugador2 = new BotFácil(this);
                     break;
-                case Dificultad.Difícil:
-                    Jugador2 = new BotDifícil(this);
+                case Dificultad.Medio:
+                    Jugador2 = new BotMedio(this);
                     break;
                 case Dificultad.PvP:
                     Jugador2 = null;
@@ -164,9 +164,9 @@ namespace Logica
             return Columna;
         }
     }
-    public class BotDifícil : Bot
+    public class BotMedio : Bot
     {
-        public BotDifícil(Tablero _T) : base(_T) { }
+        public BotMedio(Tablero _T) : base(_T) { }
         public override Int32 Turno()
         {
             Int32 Columna;

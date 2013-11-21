@@ -25,5 +25,10 @@ namespace cinco_en_linea
         {
             tablero_Graphics1.CambiarDificultad(Logica.Dificultad.Fácil);
         }
+
+        private void medioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tablero_Graphics1.CambiarDificultad(Logica.Dificultad.Medio);
+        }
 	}
 }

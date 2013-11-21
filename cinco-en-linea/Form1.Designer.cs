@@ -70,21 +70,22 @@
             // fácilToolStripMenuItem
             // 
             this.fácilToolStripMenuItem.Name = "fácilToolStripMenuItem";
-            this.fácilToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fácilToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.fácilToolStripMenuItem.Text = "Fácil";
             this.fácilToolStripMenuItem.Click += new System.EventHandler(this.fácilToolStripMenuItem_Click);
             // 
             // medioToolStripMenuItem
             // 
             this.medioToolStripMenuItem.Name = "medioToolStripMenuItem";
-            this.medioToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.medioToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.medioToolStripMenuItem.Text = "Medio";
+            this.medioToolStripMenuItem.Click += new System.EventHandler(this.medioToolStripMenuItem_Click);
             // 
             // difícilToolStripMenuItem
             // 
             this.difícilToolStripMenuItem.Name = "difícilToolStripMenuItem";
-            this.difícilToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.difícilToolStripMenuItem.Text = "Difícil";
+            this.difícilToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.difícilToolStripMenuItem.Text = "Difícil (No implementado)";
             // 
             // conUnAmigoToolStripMenuItem
             // 
