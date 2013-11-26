@@ -21,8 +21,11 @@ namespace Logica
                     Jugador2 = new BotFácil(this);
                     break;
                 case Dificultad.Medio:
-                    Jugador2 = new BotMedio(this);
+                    Jugador2 = new BotAlfaBeta(this, 3);
                     break;
+				case Dificultad.Difícil:
+					Jugador2 = new BotAlfaBeta(this, 5);
+					break;
                 case Dificultad.PvP:
                     Jugador2 = null;
 					break;
@@ -164,47 +167,86 @@ namespace Logica
             return Columna;
         }
     }
-    public class BotMedio : Bot
+    public class BotAlfaBeta : Bot
     {
-        public BotMedio(Tablero _T) : base(_T) { }
+		Int32 Complejidad;
+        public BotAlfaBeta(Tablero _T, Int32 C) : base(_T)
+		{
+			Complejidad = C;
+		}
         public override Int32 Turno()
         {
-            Int32 Columna;
-            Tablero CurrentTablero = (Tablero)T.Clone();
-            for (Columna = 0; CurrentTablero.columnaLlena(Columna); Columna++) ;
-            Int32[] MejorTurno = {0, Sum(CurrentTablero.meterFicha(Columna), 0)};
-            for (Columna = 1; Columna < 15; Columna++)
-            {
-                CurrentTablero = (Tablero)T.Clone();
-                try
-                {
-                    Int32[] CurrentTurno = { Columna, Sum(CurrentTablero.meterFicha(Columna), 1) };
-                    if (CurrentTurno[1] > MejorTurno[1])
-                        MejorTurno = CurrentTurno;
-                    else if (CurrentTurno[1] == MejorTurno[1] && new Random().Next() % 3 == 1)
-                        MejorTurno = CurrentTurno;
-                }
-                catch (Exception) { }
-            }
-            return MejorTurno[0];
-        }
-        Int32 Sum(Tablero ElTablero, Int32 Profundidad)
-        {
-            Int32 STotal = 0;
-            if(Profundidad == 3)
-                return 0;
+			Pair<Int32, Int32> Best = new Pair<int, int>(0, -99999999);
             for (Int32 Columna = 0; Columna < 15; Columna++)
             {
-                Int32 N5 = ElTablero.NFichas(5);
-                Tablero NuevoTurno = (Tablero)ElTablero.Clone();
-                try
-                {
-                    STotal += Sum(NuevoTurno.meterFicha(Columna), Profundidad + 1);
-                    STotal += N5 != 0 ? N5 == 2 ? 60 / Profundidad : -900 / Profundidad : 0;
+				Pair<Int32, Int32> P;
+				try {
+					P = Sum(((Tablero)T.Clone()).meterFicha(Columna), Complejidad, Columna, 2, -99999999, 99999999);
                 }
-                catch (Exception) { }
+                catch (Exception) {
+                    P = new Pair<Int32, Int32>(Columna, -99999999);
+                }
+                if (Best.B < P.B)
+                {
+					Best = P;
+                }
             }
-            return STotal;
+            return Best.A;
         }
+        Pair<Int32, Int32> Sum (Tablero ElTablero, Int32 Profundidad, Int32 Columna, Int32 Jugador, Int32 alfa, Int32 beta)
+		{
+			Int32 RColumna = 0;
+			Int32 N5 = ElTablero.NFichas (5);
+			if (N5 == Jugador) {
+				return new Pair<Int32, Int32> (Columna, 10 * Profundidad + 1 / Jugador);
+			}
+			if (Profundidad == 0)
+				return new Pair<Int32, Int32> (Columna, 0);
+            for (Columna = 0; Columna < 15; Columna++)
+            {
+                Pair<Int32, Int32> P;
+                try {
+                    P = Sum(((Tablero)ElTablero.Clone()).meterFicha(Columna), Profundidad - 1, Columna, (Jugador % 2) + 1, -beta, -alfa);
+                }
+                catch (Exception) {
+                    P = new Pair<Int32, Int32>(Columna, -99999999);
+                }
+                if (alfa < P.B)
+                {
+                    alfa = P.B;
+                    RColumna = P.A;
+                }
+                if (beta <= alfa)
+                    break;
+				//for (int i = Profundidad; i >= 0; i--)
+				//	Console.Write("  ");
+				//Console.WriteLine("Alfa: {0}, Beta {1}, Columna {3}, Jugador {4}", alfa, beta, Columna, Profundidad, Jugador);
+            }
+            return new Pair<Int32,Int32> (RColumna, alfa);
+        }
+    }
+    public struct Pair<T1, T2>
+    {
+        public T1 A;
+        public T2 B;
+        public Pair(T1 a, T2 b)
+        {
+            A = a;
+            B = b;
+        }
+        public Pair<T1, T2> SetA(T1 a)
+        {
+            A = a;
+            return this;
+        }
+        public Pair<T1, T2> SetB(T2 b)
+        {
+            B = b;
+            return this;
+        }
+		public override string ToString ()
+		{
+			return string.Format ("({0}; {1})", A, B);
+		}
     }
 }

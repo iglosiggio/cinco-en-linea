@@ -85,7 +85,8 @@
             // 
             this.difícilToolStripMenuItem.Name = "difícilToolStripMenuItem";
             this.difícilToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.difícilToolStripMenuItem.Text = "Difícil (No implementado)";
+            this.difícilToolStripMenuItem.Text = "Difícil";
+            this.difícilToolStripMenuItem.Click += new System.EventHandler(this.difícilToolStripMenuItem_Click);
             // 
             // conUnAmigoToolStripMenuItem
             // 
