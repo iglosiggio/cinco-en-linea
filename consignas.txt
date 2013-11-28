@@ -1,0 +1,17 @@
+PAUTAS
+======
+
+1. El grupo de trabajo debe ser de 1 a 3 integrantes
+2. La fecha de la primera entrega del trabajo final es el 19 de Noviembre
+3. Todas las clases se debe realizar la entrega parcial del trabajo
+4. Reglas del trabajo:
+   a. Se debe confeccionar el algoritmo que debe resolver el juego de un 5 en
+      línea con un tablero de 15x15
+   b. Se debe poder jugar contra la PC o con otro Jugador, si se juega contra
+      la PC debe haber dos dificultades:
+        * Básico: La PC juega aleatoriamente
+        * Avanzado: La PC debe jugar como si fuese un humano
+   c. Debe contener ayuda del juego explicando como es el juego
+   d. El modo que se determina que un jugador o la PC ha ganado es cuando
+      realiza un cinco en línea (puede realizarlo en forma vertical, horizonal
+      o diagonal).
