@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cinco-en-linea", "cinco-en-linea\cinco-en-linea.csproj", "{C0F55DB9-8247-4816-9E85-26AD28F2552F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfcount-Installer", "Perfcount-Installer\Perfcount-Installer.csproj", "{C1FFF689-8568-4E15-BD2B-C81F64B7E156}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,13 @@ Global
 		{C0F55DB9-8247-4816-9E85-26AD28F2552F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0F55DB9-8247-4816-9E85-26AD28F2552F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0F55DB9-8247-4816-9E85-26AD28F2552F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1FFF689-8568-4E15-BD2B-C81F64B7E156}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1FFF689-8568-4E15-BD2B-C81F64B7E156}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1FFF689-8568-4E15-BD2B-C81F64B7E156}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1FFF689-8568-4E15-BD2B-C81F64B7E156}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = cinco-en-linea\cinco-en-linea.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
