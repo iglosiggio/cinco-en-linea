@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace cinco_en_linea
 {
@@ -15,6 +16,13 @@ namespace cinco_en_linea
 		{
 			Application.EnableVisualStyles ();
 			Application.SetCompatibleTextRenderingDefault (false);
+			if(PerformanceCounterCategory.Exists("dbg@iglosiggio"))
+				Logica.Explorador.Count = new PerformanceCounter(
+					"dbg@iglosiggio",
+					"Object Count",
+					String.Format ("{0}/cinco-en-linea/Exploradores", Process.GetCurrentProcess().Id),
+					false
+				);
 			Application.Run (new Form1 ());
 		}
 	}

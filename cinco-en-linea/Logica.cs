@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
 
 namespace Logica
 {
@@ -254,6 +255,7 @@ namespace Logica
 
 	class Explorador
 	{
+		public static PerformanceCounter Count;
 		public Tablero T;
 		Explorador[] Futuros;
 
@@ -263,6 +265,8 @@ namespace Logica
 		{
 			T = _T;
 			Futuros = new Explorador[15];
+			if(Count != null)
+				Count.RawValue++;
 		}
 
 		public Explorador (Tablero _T, Pair<Int32, Int32> _P)
@@ -270,6 +274,14 @@ namespace Logica
 			T = _T;
 			Futuros = new Explorador[15];
 			P = _P;
+			if(Count != null)
+				Count.RawValue++;
+		}
+
+		~Explorador ()
+		{
+			if(Count != null)
+				Count.RawValue--;
 		}
 
 		public Explorador Get (Int32 N)
