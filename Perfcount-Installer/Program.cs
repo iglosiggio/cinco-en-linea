@@ -7,26 +7,27 @@ namespace PerfcountInstaller
 	{
 		public static void Main (string[] args)
 		{
-			if (!PerformanceCounterCategory.Exists ("dbg@iglosiggio")) {
+			if (!PerformanceCounterCategory.Exists ("iglosiggio.dbg")) {
 				CounterCreationDataCollection Data = new CounterCreationDataCollection ();
 				Data.Add (
 					new CounterCreationData (
-					"Object Count",
+					"obj.count",
 					"Indica la cantidad de objetos de cierto tipo",
-					PerformanceCounterType.NumberOfItems64
+					PerformanceCounterType.NumberOfItems32
 				)
 				);
 				PerformanceCounterCategory.Create (
-					"dbg@iglosiggio",
+					"iglosiggio.dbg",
 					"Datos varios para mis programas",
 					PerformanceCounterCategoryType.MultiInstance,
 					Data
 				);
 				Console.WriteLine("Hola mundo");
 			} else {
-				PerformanceCounterCategory.Delete ("dbg@iglosiggio");
+				PerformanceCounterCategory.Delete ("iglosiggio.dbg");
 				Console.WriteLine("Chau chau adios (8)");
 			}
+            Console.ReadKey();
 		}
 	}
 }

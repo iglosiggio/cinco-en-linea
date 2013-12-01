@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+# Visual C# Express 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cinco-en-linea", "cinco-en-linea\cinco-en-linea.csproj", "{C0F55DB9-8247-4816-9E85-26AD28F2552F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perfcount-Installer", "Perfcount-Installer\Perfcount-Installer.csproj", "{C1FFF689-8568-4E15-BD2B-C81F64B7E156}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfWriter", "PerfWriter\PerfWriter.csproj", "{726953F7-FE36-41A2-9D03-1E5B01317386}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,11 +21,15 @@ Global
 		{C1FFF689-8568-4E15-BD2B-C81F64B7E156}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1FFF689-8568-4E15-BD2B-C81F64B7E156}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1FFF689-8568-4E15-BD2B-C81F64B7E156}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = cinco-en-linea\cinco-en-linea.csproj
+		{726953F7-FE36-41A2-9D03-1E5B01317386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{726953F7-FE36-41A2-9D03-1E5B01317386}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{726953F7-FE36-41A2-9D03-1E5B01317386}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{726953F7-FE36-41A2-9D03-1E5B01317386}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = cinco-en-linea\cinco-en-linea.csproj
 	EndGlobalSection
 EndGlobal

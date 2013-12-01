@@ -202,6 +202,7 @@ namespace Logica
 			S.Stop();
 			Console.WriteLine(S.Elapsed);
 			E = E.Get (Previo).Get (Best.A);
+            GC.Collect();
 			return Best.A;
 		}
 
@@ -265,8 +266,7 @@ namespace Logica
 		{
 			T = _T;
 			Futuros = new Explorador[15];
-			if(Count != null)
-				Count.RawValue++;
+			Count.Increment();
 		}
 
 		public Explorador (Tablero _T, Pair<Int32, Int32> _P)
@@ -274,14 +274,12 @@ namespace Logica
 			T = _T;
 			Futuros = new Explorador[15];
 			P = _P;
-			if(Count != null)
-				Count.RawValue++;
+			Count.Increment();
 		}
 
 		~Explorador ()
 		{
-			if(Count != null)
-				Count.RawValue--;
+			Count.Decrement();
 		}
 
 		public Explorador Get (Int32 N)
