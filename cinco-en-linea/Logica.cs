@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Logica
 {
@@ -32,7 +33,7 @@ namespace Logica
 				Jugador2 = new BotFácil (new Tablero (Logica.Dificultad.PvP));
 				break;
 			case Dificultad.Medio:
-				Jugador2 = new BotAlfaBeta (new Tablero (Logica.Dificultad.PvP), 4);
+				Jugador2 = new BotAlfaBeta (new Tablero (Logica.Dificultad.PvP), 5);
 				break;
 			case Dificultad.Difícil:
 				Jugador2 = new BotAlfaBeta (new Tablero (Logica.Dificultad.PvP), 7);
@@ -192,15 +193,12 @@ namespace Logica
 		public BotAlfaBeta (Tablero _T, Int32 C) : base(_T)
 		{
 			Complejidad = C;
-			E = new Explorador (T);
+			E = new Explorador (_T);
 		}
 
 		public override Int32 Turno (Int32 Previo)
 		{
-			System.Diagnostics.Stopwatch S = System.Diagnostics.Stopwatch.StartNew();
 			Pair<Int32, Int32> Best = Sum (E.Get (Previo), Complejidad, 2, -99999999, 99999999);
-			S.Stop();
-			Console.WriteLine(S.Elapsed);
 			E = E.Get (Previo).Get (Best.A);
             GC.Collect();
 			return Best.A;
@@ -209,7 +207,7 @@ namespace Logica
 		Pair<Int32, Int32> Sum (Explorador E, Int32 Profundidad, Int32 Jugador, Int32 alfa, Int32 beta)
 		{
 			if (E.P.B != 0 || Profundidad == 0)
-				return new Pair<Int32, Int32>(E.P.A, E.P.B * Profundidad / Jugador);
+				return new Pair<Int32, Int32>(E.P.A, E.P.B);
 			Int32 RColumna = 0;
 			for (Int32 Columna = 0; Columna < 15; Columna++) {
 				Pair<Int32, Int32> P;
@@ -266,7 +264,9 @@ namespace Logica
 		{
 			T = _T;
 			Futuros = new Explorador[15];
+#if DEBUG
 			Count.Increment();
+#endif
 		}
 
 		public Explorador (Tablero _T, Pair<Int32, Int32> _P)
@@ -274,12 +274,16 @@ namespace Logica
 			T = _T;
 			Futuros = new Explorador[15];
 			P = _P;
+#if DEBUG
 			Count.Increment();
+#endif
 		}
 
 		~Explorador ()
 		{
+#if DEBUG
 			Count.Decrement();
+#endif
 		}
 
 		public Explorador Get (Int32 N)
@@ -304,6 +308,54 @@ namespace Logica
 				NewP = new Pair<Int32, Int32> (N, -99999999);
 			}
 			return Futuros [N] = new Explorador (NewT, NewP);
+		}
+	}
+
+	public class Muchacho<R, V>
+	{
+		public delegate R Work (V panam); // ILARI LARI E UO-UO-UO
+		R _rval;                          // ILARI LARI LARI E UO-UO-UO
+		public R Return {				  // Ah no pará, esa es Xuxa...
+			get {
+				if (Worker.IsAlive)
+					throw new InvalidOperationException ("Lo' muchacho aún no terminaron el laburo");
+				return _rval;
+			}
+			private set {
+				_rval = value;
+			}
+		}
+		public bool IsAlive {
+			get {
+				try { return Worker.IsAlive; }
+				catch { return false; }
+			}
+		}
+		Work ElThread;
+		Thread Worker;
+		V Parámetro;
+		private void dummy ()
+		{
+		}
+		public Muchacho (Work W)
+		{
+			ElThread = W;
+			Worker = new Thread(new ThreadStart(dummy));
+		}
+		public void Start (V Param)
+		{
+			if(Worker.IsAlive)
+				throw new InvalidOperationException("Los muchacho' ya estamo' en eso");
+			Worker = new Thread(new ThreadStart(DoWork));
+			Parámetro = Param;
+			Worker.Start();
+		}
+		void DoWork() {
+			Return = ElThread(Parámetro);
+		}
+		public static implicit operator Muchacho <R, V>(Work W)
+		{
+			return new Muchacho<R, V>(W);
 		}
 	}
 }

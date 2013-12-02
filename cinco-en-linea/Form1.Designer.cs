@@ -35,13 +35,15 @@
             this.difícilToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.conUnAmigoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tablero_Graphics1 = new cinco_en_linea.Tablero_Graphics();
+            this.ayudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nuevaPartidaToolStripMenuItem});
+            this.nuevaPartidaToolStripMenuItem,
+            this.ayudaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(329, 24);
@@ -70,21 +72,21 @@
             // fácilToolStripMenuItem
             // 
             this.fácilToolStripMenuItem.Name = "fácilToolStripMenuItem";
-            this.fácilToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.fácilToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.fácilToolStripMenuItem.Text = "Fácil";
             this.fácilToolStripMenuItem.Click += new System.EventHandler(this.fácilToolStripMenuItem_Click);
             // 
             // medioToolStripMenuItem
             // 
             this.medioToolStripMenuItem.Name = "medioToolStripMenuItem";
-            this.medioToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.medioToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.medioToolStripMenuItem.Text = "Medio";
             this.medioToolStripMenuItem.Click += new System.EventHandler(this.medioToolStripMenuItem_Click);
             // 
             // difícilToolStripMenuItem
             // 
             this.difícilToolStripMenuItem.Name = "difícilToolStripMenuItem";
-            this.difícilToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.difícilToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.difícilToolStripMenuItem.Text = "Difícil";
             this.difícilToolStripMenuItem.Click += new System.EventHandler(this.difícilToolStripMenuItem_Click);
             // 
@@ -104,6 +106,13 @@
             this.tablero_Graphics1.Size = new System.Drawing.Size(329, 301);
             this.tablero_Graphics1.TabIndex = 0;
             this.tablero_Graphics1.Text = "tablero_Graphics1";
+            // 
+            // ayudaToolStripMenuItem
+            // 
+            this.ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
+            this.ayudaToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.ayudaToolStripMenuItem.Text = "Ayuda";
+            this.ayudaToolStripMenuItem.Click += new System.EventHandler(this.ayudaToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -132,6 +141,7 @@
         private System.Windows.Forms.ToolStripMenuItem medioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem difícilToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem conUnAmigoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ayudaToolStripMenuItem;
 	}
 }
 

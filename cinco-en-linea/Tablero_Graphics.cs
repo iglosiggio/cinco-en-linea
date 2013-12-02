@@ -53,6 +53,8 @@ namespace cinco_en_linea
         Int32 Ficha_Ancho;
         Int32 Columna_Ancho;
 
+		Muchacho<Tablero, Int32> MeterFicha;
+
 		public Tablero MiTablero;
 
 		Rectangle Columna (Int32 col)
@@ -116,12 +118,16 @@ namespace cinco_en_linea
             MiTablero.CambioTurno += new EventHandler<Turno>(CambioTurno);
             MiTablero.Gano += new EventHandler<Ganador>(Ganó);
 
+			MeterFicha = new Muchacho<Tablero, Int32>.Work(MiTablero.meterFicha);
+
 			InitializeComponent ();
 
             Margen = (ClientSize.Width - (((ClientSize.Width - 5 * 16) / 15) * 15 + 5 * 16)) / 2;
             Ficha_Alto = (ClientSize.Height - 5 * 16) / 15;
             Ficha_Ancho = (ClientSize.Width - 5 * 16) / 15;
             Columna_Ancho = (ClientSize.Width - Margen * 2) / 15;
+
+			Click += doClick;
 		}
 
         public void CambiarDificultad(Dificultad Dif)
@@ -131,6 +137,7 @@ namespace cinco_en_linea
             MiTablero = new Tablero(Dif);
             MiTablero.CambioTurno += new EventHandler<Turno>(CambioTurno);
             MiTablero.Gano += new EventHandler<Ganador>(Ganó);
+			MeterFicha = new Muchacho<Tablero, int>.Work(MiTablero.meterFicha);
             if(Animable.Animations.ContainsKey(30))
                 Animable.Animations.Remove(30);
         }
@@ -237,16 +244,11 @@ namespace cinco_en_linea
             Columna_Ancho = (ClientSize.Width - Margen * 2) / 15;
 		}
 
-        protected override void OnMouseClick(MouseEventArgs e)
-        {
-            base.OnMouseClick(e);
-            try
-            {
-                MiTablero.meterFicha(SColumna);
-            }
-            catch (Exception)
-            {
-            }
+        void doClick (object sender, EventArgs e)
+		{
+			if(MeterFicha.IsAlive)
+				return;
+			MeterFicha.Start(SColumna);
         }
         protected override void OnClientSizeChanged(EventArgs e)
         {
