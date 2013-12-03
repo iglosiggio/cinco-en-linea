@@ -27,7 +27,7 @@ namespace cinco_en_linea
 			{ Color.RoyalBlue, Color.DarkBlue },
 			{ Color.IndianRed, Color.DarkRed }
 		};
-        Int32 Jugador = 0;
+        Int32 Jugador = 1;
         Estados currentStatus;
         ColorBlend animationColor;
 
@@ -100,13 +100,13 @@ namespace cinco_en_linea
 
 		public Tablero_Graphics ()
 		{
+			DoubleBuffered = true;
+
             // HOVERDATA: CTOR
             currentStatus = Estados.Alone;
-            DoubleBuffered = true;
             animationColor = new ColorBlend(Color.FromArgb(0), Color.Red, 20);
 
             // TABLERO: CTOR
-			DoubleBuffered = true;
 			ColumnaSeleccionada = new RectangleBlend (new Rectangle (0, 0, 0, 0), new Rectangle (0, 0, 0, 0), 0, 1);
 			animationTimer = new Timer ();
 			animationTimer.Interval = 10;
@@ -140,6 +140,7 @@ namespace cinco_en_linea
 			MeterFicha = new Muchacho<Tablero, int>.Work(MiTablero.meterFicha);
             if(Animable.Animations.ContainsKey(30))
                 Animable.Animations.Remove(30);
+			animationColor.ChangeBlend(Color.Red, 7);
         }
 
 		protected override void OnPaint (PaintEventArgs pe)

@@ -30,13 +30,13 @@ namespace Logica
 			Jugador = 1;
 			switch (Dif) {
 			case Dificultad.Fácil:
-				Jugador2 = new BotFácil (new Tablero (Logica.Dificultad.PvP));
+				Jugador2 = new BotFácil ();
 				break;
 			case Dificultad.Medio:
-				Jugador2 = new BotAlfaBeta (new Tablero (Logica.Dificultad.PvP), 5);
+				Jugador2 = new BotAlfaBeta (5);
 				break;
 			case Dificultad.Difícil:
-				Jugador2 = new BotAlfaBeta (new Tablero (Logica.Dificultad.PvP), 7);
+				Jugador2 = new BotAlfaBeta (7);
 				break;
 			case Dificultad.PvP:
 				Jugador2 = null;
@@ -95,7 +95,7 @@ namespace Logica
 				CambioTurno (this, new Turno (Jugador, columna, fila));
 			Jugador = (Byte)((Jugador % 2) + 1);
 			if (Jugador == 2 && Jugador2 != null) {
-				meterFicha (Jugador2.Turno (columna));
+				meterFicha (Jugador2.Turno (columna, this));
 			}
 			return this;
 		}
@@ -155,27 +155,19 @@ namespace Logica
 
 	public abstract class Bot
 	{
-		protected Tablero T;
-
-		public Bot (Tablero _T)
-		{
-			T = _T;
-		}
-
-		public abstract Int32 Turno (Int32 Previo);
+		public abstract Int32 Turno (Int32 Previo, Tablero T);
 	}
 
 	public class BotFácil : Bot
 	{
 		Random R;
 
-		public BotFácil (Tablero _T)
-            : base(_T)
+		public BotFácil ()
 		{
 			R = new Random ();
 		}
 
-		public override int Turno (Int32 Previo)
+		public override int Turno (Int32 Previo, Tablero T)
 		{
 			Int32 Columna;
 			do {
@@ -190,13 +182,13 @@ namespace Logica
 		Int32 Complejidad;
 		Explorador E;
 
-		public BotAlfaBeta (Tablero _T, Int32 C) : base(_T)
+		public BotAlfaBeta (Int32 C)
 		{
 			Complejidad = C;
-			E = new Explorador (_T);
+			E = new Explorador(new Tablero(Logica.Dificultad.PvP));
 		}
 
-		public override Int32 Turno (Int32 Previo)
+		public override Int32 Turno (Int32 Previo, Tablero T)
 		{
 			Pair<Int32, Int32> Best = Sum (E.Get (Previo), Complejidad, 2, -99999999, 99999999);
 			E = E.Get (Previo).Get (Best.A);
@@ -254,7 +246,6 @@ namespace Logica
 
 	class Explorador
 	{
-		public static PerformanceCounter Count;
 		public Tablero T;
 		Explorador[] Futuros;
 
@@ -279,12 +270,14 @@ namespace Logica
 #endif
 		}
 
+#if DEBUG
+		public static PerformanceCounter Count;
 		~Explorador ()
 		{
-#if DEBUG
 			Count.Decrement();
-#endif
+
 		}
+#endif
 
 		public Explorador Get (Int32 N)
 		{
@@ -317,7 +310,7 @@ namespace Logica
 		R _rval;                          // ILARI LARI LARI E UO-UO-UO
 		public R Return {				  // Ah no pará, esa es Xuxa...
 			get {
-				if (Worker.IsAlive)
+				if (IsAlive)
 					throw new InvalidOperationException ("Lo' muchacho aún no terminaron el laburo");
 				return _rval;
 			}
@@ -334,24 +327,46 @@ namespace Logica
 		Work ElThread;
 		Thread Worker;
 		V Parámetro;
-		private void dummy ()
-		{
+		Exception e;
+		public Exception Throw {
+			get {
+				if (IsAlive)
+					throw new InvalidOperationException ("Lo' muchacho aún no terminaron el laburo");
+				return e;
+			}
+			set {
+				e = value;
+			}
 		}
-		public Muchacho (Work W)
+		Boolean throwConfig;
+		public Muchacho (Work W) : this(W, false) { }
+		public Muchacho (Work W, Boolean realWorldThrow)
 		{
 			ElThread = W;
-			Worker = new Thread(new ThreadStart(dummy));
+			throwConfig = realWorldThrow;
 		}
 		public void Start (V Param)
 		{
-			if(Worker.IsAlive)
+			if(IsAlive)
 				throw new InvalidOperationException("Los muchacho' ya estamo' en eso");
 			Worker = new Thread(new ThreadStart(DoWork));
 			Parámetro = Param;
 			Worker.Start();
 		}
-		void DoWork() {
-			Return = ElThread(Parámetro);
+		public void Join ()
+		{
+			Worker.Join();
+		}
+		void DoWork ()
+		{
+			Throw = null;
+			try {
+				Return = ElThread (Parámetro);
+			} catch (Exception ouch) {
+				if(throwConfig)
+					throw ouch;
+				else Throw = ouch;
+			}
 		}
 		public static implicit operator Muchacho <R, V>(Work W)
 		{

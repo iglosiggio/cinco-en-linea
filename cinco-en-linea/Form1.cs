@@ -39,14 +39,23 @@ namespace cinco_en_linea
         private void ayudaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show(
-                "¿Como se juega?\n" +
-                "===============\n" +
-                "El 5 en linea es un juego por turnos de dos jugadores. Para ganar debe lograr colocar 5 fichas consecutivas del mismo color en forma horizontal, vertical o diagonal.\n" +
-                "Cuando el jugador hace clik en la columna donde quiere poner la ficha esta va cayendo hasta el ultimo espacio libre de la fila; para saber en que columna se esta posicionado hay un señalizador gris que marca la columna.\n" +
-                "Para saber de quien es el turno hay una luz indicadora en la parte interior del tablero donde se indica el color del jugador.\n" +
-                "Hay 2 modos de juego: PvP y PvCOM \n" +
-                "El PvP es el modo para jugar contra otro jugador.\n" +
-                "En el PvCOM existen 3 niveles de dificultad: Facil, Medio y Dificil"
+				"                                                              \n" +
+                " ¿Como se juega?                                              \n" +
+                "                                                              \n" +
+				" - Para ganar deben lograr colocar 5 fichas consecutivas del  \n" +
+				"   mismo color en forma horizontal, vertical o diagonal       \n" +
+                " - Haga click en la columna donde quiere poner la ficha, esta \n" +
+                "   caerá hasta el ultimo espacio libre de la fila             \n" +
+                "     (para saber en que columna se esta posicionado hay un    \n" +
+                "                        señalizador gris que marca la columna)\n" +
+                " - El juego incluye un indicador de turno                     \n" +
+                "     (una luz en la parte inferior del tablero que indica el  \n" +
+                "                                     color del jugador actual)\n" +
+                " - Existen dos modos de juego:                                \n" +
+                "    * Contra la computadora                                   \n" +
+                "    * Contra otra persona (tiene tres dificultades)           \n" +
+                "   Estos modos se pueden acceder desde el menú superior,      \n" +
+                "   accederlos reinicia la partida actual.                     \n"
             );
         }
 	}
