@@ -8,6 +8,7 @@ namespace cinco_en_linea
 {
 	static class Program
 	{
+        public static Pasión Saba;
 		/// <summary>
 		/// Punto de entrada principal para la aplicación.
 		/// </summary>
@@ -23,7 +24,8 @@ namespace cinco_en_linea
 			Logica.Explorador.Count.InstanceName = String.Format ("{0}/cinco-en-linea/Exploradores", Process.GetCurrentProcess ().Id);
 			Logica.Explorador.Count.ReadOnly = false;
 #endif
-			Application.Run (new Form1 ());
+            Saba = new Pasión();
+			Application.Run (Saba);
 		}
 	}
 }

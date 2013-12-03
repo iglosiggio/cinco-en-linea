@@ -95,6 +95,7 @@ namespace Logica
 				CambioTurno (this, new Turno (Jugador, columna, fila));
 			Jugador = (Byte)((Jugador % 2) + 1);
 			if (Jugador == 2 && Jugador2 != null) {
+                cinco_en_linea.Program.Saba.jugador.Text = "Calculando...";
 				meterFicha (Jugador2.Turno (columna, this));
 			}
 			return this;

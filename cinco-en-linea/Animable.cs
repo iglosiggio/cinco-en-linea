@@ -18,13 +18,19 @@ namespace cinco_en_linea
         public Animable(Int32 Prioridad)
         {
 			ID = Prioridad;
-            Animations.Add(Prioridad, this);
+            lock (Animations)
+            {
+                Animations.Add(Prioridad, this);
+            }
         }
         abstract public void DrawFrame(PaintEventArgs e);
 		abstract public void Next();
         protected virtual void Remove()
         {
-            Animations.Remove(ID);
+            lock (Animations)
+            {
+                Animations.Remove(ID);
+            }
             postForEach -= Remove;
         }
     }
@@ -86,7 +92,10 @@ namespace cinco_en_linea
 			Ubicación = new Point(Columna, Fila);
 			Color = FColor;
 			Línea = FLínea;
-			Fichas.Add(Ubicación, this);
+            lock (Fichas)
+            {
+                Fichas.Add(Ubicación, this);
+            }
 		}
 		public override void DrawFrame (PaintEventArgs e)
 		{
@@ -99,7 +108,10 @@ namespace cinco_en_linea
 		}
         protected override void Remove()
         {
-            Fichas.Remove(Ubicación);
+            lock (Fichas)
+            {
+                Fichas.Remove(Ubicación);
+            }
             base.Remove();
         }
 	}

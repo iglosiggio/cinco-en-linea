@@ -120,4 +120,29 @@
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAEBAAAAAAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAA
+        AAD///////////////////////////////8kHO3/JBzt/yQc7f8kHO3/////////////////////////
+        /////////////////////////////yQc7f8kHO3/ya7//8mu///Jrv//ya7//yQc7f8kHO3/////////
+        ////////////////////////JBzt/yQc7f/Jrv//ya7//+rZmf/q2Zn/6tmZ/+rZmf/Jrv//ya7//yQc
+        7f8kHO3//////////////////////yQc7f/Jrv//6tmZ/+rZmf/oogD/6KIA/+iiAP/oogD/6tmZ/+rZ
+        mf/Jrv//JBzt/////////////////yQc7f/Jrv//6tmZ/+iiAP/oogD//////////////////////+ii
+        AP/oogD/6tmZ/8mu//8kHO3//////yQc7f/Jrv//6tmZ/+iiAP///////////39/f/9/f3//f39/////
+        ////////6KIA/+rZmf/Jrv//JBzt//////8kHO3/ya7//+rZmf/oogD/////////////////////////
+        //9/f3/////////////oogD/6tmZ/8mu//8kHO3/JBzt/8mu///q2Zn/6KIA////////////////////
+        ////////f39/////////////6KIA/+rZmf/Jrv//JBzt/yQc7f/Jrv//6tmZ/+iiAP///////////39/
+        f/9/f3//f39//////////////////+iiAP/q2Zn/ya7//yQc7f8kHO3/ya7//+rZmf/oogD/////////
+        //9/f3/////////////////////////////oogD/6tmZ/8mu//8kHO3/JBzt/8mu///q2Zn/6KIA////
+        ////////f39//39/f/9/f3//f39////////oogD/6tmZ/8mu//8kHO3///////////8kHO3/ya7//+rZ
+        mf/oogD/////////////////////////////////6KIA/+rZmf/Jrv//JBzt/////////////////yQc
+        7f/Jrv//6tmZ/+iiAP/oogD/6KIA/+iiAP/oogD/6KIA/+rZmf/Jrv//JBzt////////////////////
+        //8kHO3/JBzt/8mu///q2Zn/6tmZ/+rZmf/q2Zn/6tmZ/+rZmf/Jrv//JBzt/yQc7f//////////////
+        //////////////////8kHO3/ya7//8mu///Jrv//ya7//8mu///Jrv//JBzt////////////////////
+        /////////////////////////////yQc7f8kHO3/JBzt/yQc7f8kHO3/JBzt////////////////////
+        ////////AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA
+        //8AAP//AAD//w==
+</value>
+  </data>
 </root>

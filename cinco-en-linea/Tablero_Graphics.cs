@@ -68,6 +68,7 @@ namespace cinco_en_linea
 		}
         void CambioTurno(object s, Turno e)
         {
+            Program.Saba.jugador.Text = e.Jugador == 1 ? "Jugador: Azul" : "Jugador: Rojo";
             Jugador = e.Jugador - 1;
             animationColor.ChangeBlend(cursorColor[Jugador, 0], 7);
             Rectangle R = new Rectangle(
@@ -130,6 +131,12 @@ namespace cinco_en_linea
 			Click += doClick;
 		}
 
+        ~Tablero_Graphics()
+        {
+            Animable.Animations.Clear();
+            Ficha.Fichas.Clear();
+            GC.Collect();
+        }
         public void CambiarDificultad(Dificultad Dif)
         {
             MiTablero.CambioTurno -= CambioTurno;
@@ -144,15 +151,17 @@ namespace cinco_en_linea
         }
 
 		protected override void OnPaint (PaintEventArgs pe)
-		{
+		{   
             pe.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            foreach (KeyValuePair<Int32, Animable> Widget in Animable.Animations)
+            lock (Animable.Animations)
             {
-				if(Widget.Key > 10)
-					break;
-                Widget.Value.DrawFrame(pe);
+                foreach (KeyValuePair<Int32, Animable> Widget in Animable.Animations)
+                {
+                    if (Widget.Key > 10)
+                        break;
+                    Widget.Value.DrawFrame(pe);
+                }
             }
-
 			// Data de dibujo
 			for (int i = 0; i < 15; i ++)
 				for (int j = 0; j < 15; j ++) {
@@ -174,13 +183,15 @@ namespace cinco_en_linea
 				pe.Graphics.DrawEllipse (Pens.Green, actual);
 			} catch (Exception) {
 			}
-			foreach (KeyValuePair<Int32, Animable> Widget in Animable.Animations)
+            lock (Animable.Animations)
             {
-				if(Widget.Key < 10)
-					continue;
-                Widget.Value.DrawFrame(pe);
+                foreach (KeyValuePair<Int32, Animable> Widget in Animable.Animations)
+                {
+                    if (Widget.Key < 10)
+                        continue;
+                    Widget.Value.DrawFrame(pe);
+                }
             }
-
             if (Animable.postForEach != null)
                 Animable.postForEach();
 

@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace cinco_en_linea
 {
-	public partial class Form1 : Form
+	public partial class Pasión : Form
 	{
-		public Form1 ()
+		public Pasión ()
 		{
 			InitializeComponent ();
 		}
@@ -57,6 +57,14 @@ namespace cinco_en_linea
                 "   Estos modos se pueden acceder desde el menú superior,      \n" +
                 "   accederlos reinicia la partida actual.                     \n"
             );
+        }
+
+        private void Pasión_Resize(object sender, EventArgs e)
+        {
+            if (ClientSize.Width < 370)
+                Program.Saba.ClientSize = new Size(370, 370);
+            else
+                Program.Saba.ClientSize = new Size(ClientSize.Width, ClientSize.Width);
         }
 	}
 }
