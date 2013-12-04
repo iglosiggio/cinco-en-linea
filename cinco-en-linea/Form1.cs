@@ -59,12 +59,15 @@ namespace cinco_en_linea
             );
         }
 
-        private void Pasión_Resize(object sender, EventArgs e)
-        {
-            if (ClientSize.Width < 370)
-                Program.Saba.ClientSize = new Size(370, 370);
-            else
-                Program.Saba.ClientSize = new Size(ClientSize.Width, ClientSize.Width);
+        private void Pasión_Resize (object sender, EventArgs e)
+		{
+			try {
+				if (ClientSize.Width < 370)
+					Program.Saba.ClientSize = new Size (370, 370);
+				else
+					Program.Saba.ClientSize = new Size (ClientSize.Width, ClientSize.Width);
+			} catch {
+			}
         }
 	}
 }
